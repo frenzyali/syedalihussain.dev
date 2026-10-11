@@ -23,7 +23,7 @@ export interface Job {
 export const aiit: Job = {
   org: 'AIIT Solutions',
   role: 'DevOps Engineer',
-  location: 'Rawalpindi',
+  location: 'Islamabad (Hybrid)',
   start: { iso: '2026-01', label: 'Jan 2026' },
   lead: 'I own infrastructure, security and releases for HR360HUB, a multi-service Laravel HRMS SaaS on AWS with dev, UAT and production environments.',
   results: [
