@@ -14,9 +14,9 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
       </header>
       <p class="lead">{aiit.lead}</p>
 
-      <ul class="dash" role="list">
+      <ul class="tiles dash" role="list">
         {
-          aiit.results!.map((r) => (
+          aiit.results.map((r) => (
             <li class="panel">
               <div class="panel-head">
                 <span class="status">
@@ -26,6 +26,7 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
                 <span class="metric">{r.metric}</span>
                 <span class="delta">{change(r)}</span>
               </div>
+              {/* The reading and chart repeat r.text below, so screen readers get the sentence only. */}
               <p class="reading" aria-hidden="true">
                 <span class="now">{r.after.label}</span>
                 <span class="was">was {r.before.label}</span>
@@ -77,7 +78,7 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
             <p class="entry-sub">{job.role}</p>
             <p class="dates">
               <time datetime={job.start.iso}>{job.start.label}</time> –{' '}
-              <time datetime={job.end!.iso}>{job.end!.label}</time>
+              <time datetime={job.end.iso}>{job.end.label}</time>
             </p>
           </header>
           {job.points.map((p) => (
@@ -94,11 +95,7 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
 <style>
   /* Results as a monitoring dashboard. */
   .dash {
-    display: grid;
-    gap: 1px;
     margin-top: 2rem;
-    border: 1px solid var(--rule);
-    background: var(--rule);
   }
 
   @media (min-width: 64rem) {

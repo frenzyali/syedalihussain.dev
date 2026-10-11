@@ -11,7 +11,7 @@ import { sections } from '../data/site';
           sections.map((s) => (
             <li>
               <a href={`#${s.id}`}>
-                <span class="n">{s.n}</span>
+                <span class="n">{s.n}</span>{' '}
                 {s.title}
               </a>
             </li>
@@ -64,7 +64,8 @@ import { sections } from '../data/site';
     /* Lets the links scroll sideways on narrow phones instead of widening the page. */
     overflow-x: auto;
     margin-inline: calc(var(--gutter) * -1);
-    padding-inline: var(--gutter);
+    /* Block padding leaves room for the focus outline, which overflow-x would otherwise clip. */
+    padding: 0.375rem var(--gutter);
   }
 
   ul {
@@ -85,7 +86,6 @@ import { sections } from '../data/site';
   }
 
   .n {
-    margin-right: 0.375rem;
     color: var(--accent);
   }
 
@@ -110,7 +110,8 @@ import { sections } from '../data/site';
     visibility: hidden;
   }
 
-  @media (min-width: 56rem) {
+  /* The single-row header needs ~58rem of content width; below that the nav gets its own row. */
+  @media (min-width: 64rem) {
     .top-inner {
       grid-template-columns: auto 1fr auto;
       grid-template-areas: 'brand nav toggle';

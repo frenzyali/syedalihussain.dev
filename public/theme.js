@@ -2,6 +2,7 @@
 (function () {
   var KEY = 'theme';
   var root = document.documentElement;
+  var system = window.matchMedia('(prefers-color-scheme: dark)');
 
   function read() {
     try {
@@ -22,7 +23,11 @@
   function current() {
     var set = root.getAttribute('data-theme');
     if (set) return set;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return system.matches ? 'dark' : 'light';
+  }
+
+  function opposite() {
+    return current() === 'dark' ? 'light' : 'dark';
   }
 
   var saved = read();
@@ -33,20 +38,20 @@
     if (!button) return;
 
     function label() {
-      var next = current() === 'dark' ? 'light' : 'dark';
+      var next = opposite();
       button.textContent = next === 'dark' ? 'Dark theme' : 'Light theme';
       button.setAttribute('aria-label', 'Switch to ' + next + ' theme');
     }
 
     button.addEventListener('click', function () {
-      var next = current() === 'dark' ? 'light' : 'dark';
+      var next = opposite();
       root.setAttribute('data-theme', next);
       write(next);
       label();
     });
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', label);
     label();
     button.hidden = false;
+    if (system.addEventListener) system.addEventListener('change', label);
   });
 })();

@@ -23,6 +23,16 @@
   font-display: optional;
 }
 
+/* That fallback, scaled so a bold Arial/Roboto word is about as wide as Plex Sans Condensed
+   ("Hussain": ~3.75em vs 3.22em). The hero name is sized to fit the frame in Plex. */
+@font-face {
+  font-family: 'Plex Condensed Fallback';
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Roboto Bold'), local('Roboto-Bold'),
+    local('Arial'), local('Roboto');
+  font-weight: 600;
+  size-adjust: 86%;
+}
+
 :root {
   color-scheme: light;
 
@@ -42,9 +52,9 @@
   --bar-after: #1456b0;
 
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  /* Every fallback here has a 0.6em advance, like Plex Mono, so the swap doesn't reflow text. */
+  /* Fallbacks are close to Plex Mono's 0.6em advance (Consolas is ~0.55em), so the swap barely reflows. */
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, 'DejaVu Sans Mono', monospace;
-  --display: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif-condensed, var(--sans);
+  --display: 'IBM Plex Sans Condensed', 'Plex Condensed Fallback', var(--sans);
 
   --step--1: 0.8125rem;
   --step-0: 1.0625rem;
@@ -76,6 +86,7 @@
   }
 }
 
+/* The same dark tokens, forced by the toggle in theme.js. Keep both dark blocks in sync. */
 :root[data-theme='dark'] {
   color-scheme: dark;
   --bg: #0b2540;
@@ -117,7 +128,7 @@ html {
   }
 }
 
-/* Graph paper: 1px lines every 16px, heavier every 80px. Hard stops, so these draw lines, not fades. */
+/* Graph paper: 1px lines every 16px, darker every 80px. Hard stops, so these draw lines, not fades. */
 body {
   margin: 0;
   background-color: var(--bg);
@@ -145,8 +156,7 @@ p,
 ul,
 ol,
 dl,
-dd,
-figure {
+dd {
   margin: 0;
 }
 
@@ -178,18 +188,6 @@ svg {
 .tool {
   font-family: var(--mono);
   font-size: 0.9em;
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
 }
 
 .skip-link {
@@ -310,6 +308,14 @@ svg {
   .titleblock div {
     grid-template-columns: 5.5rem 1fr;
   }
+}
+
+/* Tiles (results, projects, skills): cells divided by 1px rules. Each component sets its columns. */
+.tiles {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--rule);
+  background: var(--rule);
 }
 
 /* Timeline entries (Experience, Education): dated sequences, so they hang off one rail. */

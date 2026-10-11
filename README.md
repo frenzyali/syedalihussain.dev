@@ -20,14 +20,15 @@ npm run preview  # serves dist/ locally
 ```text
 public/
   _headers          Cloudflare Pages security and cache headers
-  cv/               Syed-Ali-Hussain-CV.pdf goes here
+  cv/               the CV PDF linked from the hero
   fonts/            IBM Plex Sans Condensed 600 and IBM Plex Mono 400/600, Latin subsets (SIL OFL, see OFL.txt)
   theme.js          light/dark toggle, stored in localStorage
   robots.txt, sitemap.xml, favicon.svg
 src/
   data/             site.ts (name, links, sections), experience.ts (jobs and results)
   layouts/Base.astro
-  components/       one component per section
+  components/       one component per section, plus Header, Section, Icon, Rich
+  pages/index.astro the single page
   styles/global.css design tokens and base styles
 ```
 
@@ -49,7 +50,7 @@ Steps:
 2. Enter the settings above and deploy.
 3. Under **Custom domains**, add `syedalihussain.dev`.
 
-`public/_headers` is copied to `dist/` and applied by Cloudflare Pages. It sets a same-origin-only Content Security Policy, HSTS, `X-Content-Type-Options`, `Referrer-Policy` and `Permissions-Policy`.
+`public/_headers` is copied to `dist/` and applied by Cloudflare Pages. It sets a same-origin-only Content Security Policy, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` and `Cross-Origin-Opener-Policy`, plus long-lived caching for `/_astro/*` and `/fonts/*`.
 
 ## TODO
 

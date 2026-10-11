@@ -1,26 +1,37 @@
-// Text fields may wrap tool names in backticks; <Rich> renders them in the mono face.
+// Strings in `points` may wrap tool names in backticks; <Rich> sets them in the mono face.
+// Other fields are plain text.
+
+interface Reading {
+  value: number;
+  label: string;
+}
+
+interface Month {
+  iso: string;
+  label: string;
+}
 
 export interface Result {
   metric: string;
   /** Axis unit for the chart. */
   unit: string;
-  before: { value: number; label: string };
-  after: { value: number; label: string };
+  before: Reading;
+  after: Reading;
   text: string;
 }
 
-export interface Job {
+interface Job {
   org: string;
   role: string;
   location?: string;
-  start: { iso: string; label: string };
-  end?: { iso: string; label: string };
+  start: Month;
+  end?: Month;
   lead?: string;
   results?: Result[];
   points: string[];
 }
 
-export const aiit: Job = {
+export const aiit = {
   org: 'AIIT Solutions',
   role: 'DevOps Engineer',
   location: 'Islamabad (Hybrid)',
@@ -54,9 +65,16 @@ export const aiit: Job = {
     'Set up monitoring and alerting with `CloudWatch` and `SNS`, `Prometheus`, `Grafana` and `Loki`.',
     'Run the on-prem side: `Hyper-V`, `Nginx`, `MikroTik` networking with dual-WAN failover, and `Active Directory`.',
   ],
-};
+} satisfies Job;
 
-export const internships: Job[] = [
+// The panels label every result "improved" and draw after as a share of before.
+for (const r of aiit.results) {
+  if (!(r.after.value >= 0 && r.after.value < r.before.value)) {
+    throw new Error(`experience.ts: "${r.metric}" needs 0 <= after < before`);
+  }
+}
+
+export const internships = [
   {
     org: 'Cloudlem',
     role: 'Internship',
@@ -73,16 +91,19 @@ export const internships: Job[] = [
       'Worked with `AWS`, `Terraform`, `Kubernetes` on `EKS`, and `Prometheus` and `Grafana`.',
     ],
   },
-];
+] satisfies Job[];
 
 /** Percentage drop from before to after, e.g. "−53%". */
-export const change = (r: Result) =>
-  `−${Math.round((1 - r.after.value / r.before.value) * 100)}%`;
+export function change(r: Result): string {
+  return `−${Math.round((1 - r.after.value / r.before.value) * 100)}%`;
+}
 
 /** After as a share of before, as an SVG width, e.g. "47.1%". */
-export const share = (r: Result) => `${((r.after.value / r.before.value) * 100).toFixed(1)}%`;
+export function share(r: Result): string {
+  return `${((r.after.value / r.before.value) * 100).toFixed(1)}%`;
+}
 
-/** Round axis ticks from 0 up to the before value (at most about 5 of them). */
+/** Axis ticks at round steps (1, 2, 3, 5 or 10 × 10^n) from 0 up to the before value. */
 export function ticks(r: Result): { value: number; at: string }[] {
   const max = r.before.value;
   const raw = max / 5;

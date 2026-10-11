@@ -20,7 +20,7 @@ const featured = [
   {
     repo: 'ansible-linux-hardening',
     status: { state: 'ok', label: 'tested in CI' },
-    text: 'Eight idempotent Ansible roles that harden Ubuntu 24.04 and Rocky Linux 9: SSH, users, firewall, fail2ban, kernel, auditd and updates. Molecule runs every role in CI, plus a scenario proving the SSH lockout guard refuses unsafe configs.',
+    text: 'Eight idempotent Ansible roles that harden Ubuntu 24.04 and Rocky Linux 9: baseline, SSH, users, firewall, fail2ban, kernel, auditd and updates. Molecule runs every role in CI, plus a scenario proving the SSH lockout guard refuses unsafe configs.',
     stack: ['Ansible', 'Molecule', 'Docker', 'ansible-lint', 'GitHub Actions'],
   },
 ];
@@ -40,7 +40,7 @@ const url = (repo: string) => `${site.github}/${repo}`;
 ---
 
 <Section id="projects">
-  <ul class="cards" role="list">
+  <ul class="tiles cards" role="list">
     {
       featured.map((p) => (
         <li class="card">
@@ -79,13 +79,6 @@ const url = (repo: string) => `${site.github}/${repo}`;
 </Section>
 
 <style>
-  .cards {
-    display: grid;
-    gap: 1px;
-    border: 1px solid var(--rule);
-    background: var(--rule);
-  }
-
   @media (min-width: 64rem) {
     .cards {
       grid-template-columns: repeat(3, minmax(0, 1fr));

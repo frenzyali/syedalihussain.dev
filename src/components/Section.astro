@@ -5,11 +5,13 @@ interface Props {
   id: (typeof sections)[number]['id'];
 }
 
-const { n, title, id } = sections.find((s) => s.id === Astro.props.id)!;
+const section = sections.find((s) => s.id === Astro.props.id);
+if (!section) throw new Error(`Section: unknown id "${Astro.props.id}" (see sections in src/data/site.ts)`);
+const { n, title, id } = section;
 ---
 
 <section class="wrap section" id={id} aria-labelledby={`${id}-title`}>
-  <h2 id={`${id}-title`}><span class="n">{n}</span>{title}</h2>
+  <h2 id={`${id}-title`}><span class="n">{n}</span>{' '}{title}</h2>
   <slot />
 </section>
 

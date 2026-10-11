@@ -3,36 +3,37 @@ import Section from './Section.astro';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
 
-// "linkedin.com/in/alihussaindevops": drop the scheme, then allow line breaks after each slash.
+// Display form of a profile URL ("linkedin.com/in/alihussaindevops"), split on "/" so the
+// template can put a <wbr> before each slash and long URLs wrap there on phones.
 const parts = (url: string) =>
   url
     .replace(/^https:\/\/(www\.)?/, '')
     .replace(/\/$/, '')
     .split('/');
+
+const profiles = [
+  { name: 'github', url: site.github },
+  { name: 'linkedin', url: site.linkedin },
+] as const;
 ---
 
 <Section id="contact">
   <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
 
   <dl class="titleblock links">
-    <div>
-      <dt>github</dt>
-      <dd>
-        <a href={site.github}>
-          <Icon name="github" />
-          <span>{parts(site.github).map((p, i) => (i ? [<wbr />, `/${p}`] : p))}</span>
-        </a>
-      </dd>
-    </div>
-    <div>
-      <dt>linkedin</dt>
-      <dd>
-        <a href={site.linkedin}>
-          <Icon name="linkedin" />
-          <span>{parts(site.linkedin).map((p, i) => (i ? [<wbr />, `/${p}`] : p))}</span>
-        </a>
-      </dd>
-    </div>
+    {
+      profiles.map(({ name, url }) => (
+        <div>
+          <dt>{name}</dt>
+          <dd>
+            <a href={url}>
+              <Icon name={name} />
+              <span>{parts(url).map((p, i) => (i ? [<wbr />, `/${p}`] : p))}</span>
+            </a>
+          </dd>
+        </div>
+      ))
+    }
   </dl>
 </Section>
 

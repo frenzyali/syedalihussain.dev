@@ -5,6 +5,7 @@ interface Props {
 }
 
 const parts = Astro.props.text.split('`');
+if (parts.length % 2 === 0) throw new Error(`Rich: unbalanced backtick in "${Astro.props.text}"`);
 ---
 
 {parts.map((part, i) => (i % 2 ? <span class="tool">{part}</span> : part))}
