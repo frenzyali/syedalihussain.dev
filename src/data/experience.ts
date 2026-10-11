@@ -23,10 +23,12 @@ export interface Result {
 interface Job {
   org: string;
   role: string;
-  location?: string;
+  location: string;
   start: Month;
   end?: Month;
   lead?: string;
+  /** One plain-text line under the role, e.g. how the internship came about. */
+  note?: string;
   results?: Result[];
   points: string[];
 }
@@ -43,7 +45,7 @@ export const aiit = {
       unit: 'USD',
       before: { value: 425, label: '~$425' },
       after: { value: 200, label: '~$200' },
-      text: 'Cut the monthly AWS bill from ~$425 to ~$200 (~53%), including ~$79/month from EC2 and RDS right-sizing — beating projected savings.',
+      text: 'Cut the monthly AWS bill from ~$425 to ~$200 (~53%), including ~$79/month from EC2 and RDS right-sizing.',
     },
     {
       metric: 'Deploy time per service',
@@ -76,19 +78,23 @@ for (const r of aiit.results) {
 
 export const internships = [
   {
-    org: 'Cloudlem',
-    role: 'Internship',
+    org: 'Cloudlem (Pvt.) Ltd',
+    role: 'DevOps Intern',
+    location: 'Remote',
     start: { iso: '2025-11', label: 'Nov 2025' },
     end: { iso: '2025-12', label: 'Dec 2025' },
     points: ['Worked on CI/CD pipeline reliability and Linux file permissions.'],
   },
   {
-    org: 'Al Nafi',
-    role: 'Internship',
+    org: 'Al Nafi International College',
+    role: 'DevOps Intern',
+    location: 'Remote',
+    note: 'Job training programme of my Level 6 diploma.',
     start: { iso: '2024-07', label: 'Jul 2024' },
     end: { iso: '2025-07', label: 'Jul 2025' },
     points: [
       'Worked with `AWS`, `Terraform`, `Kubernetes` on `EKS`, and `Prometheus` and `Grafana`.',
+      'Capstones: a `Jenkins` and `Docker` pipeline with log archival to `S3`, and a container-orchestrated app on `AWS EKS`.',
     ],
   },
 ] satisfies Job[];
