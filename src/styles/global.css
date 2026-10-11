@@ -264,6 +264,44 @@ svg {
   background: var(--rule);
 }
 
+/* Title block: the bordered key/value table from an engineering drawing. Used by the hero,
+   Education and Contact; keep this whole block together when editing nearby rules. */
+.titleblock {
+  display: grid;
+  border: 1px solid var(--ink);
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: var(--step--1);
+}
+
+.titleblock > div {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+}
+
+.titleblock > div + div {
+  border-top: 1px solid var(--rule);
+}
+
+.titleblock dt {
+  padding: 0.5rem 0.75rem;
+  border-right: 1px solid var(--rule);
+  color: var(--ink-2);
+}
+
+.titleblock dd {
+  padding: 0.5rem 0.75rem;
+  color: var(--ink);
+  font-weight: 600;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 30rem) {
+  .titleblock > div {
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+  }
+}
+
 /* Timeline entries (Experience, Education): dated sequences, so they hang off one rail. */
 .rail {
   position: relative;

@@ -60,6 +60,17 @@ Manage it with `astro dev stop`, `astro dev status` and `astro dev logs`.
 
 Before committing, run `npm run build` and fix every warning.
 
+## Before every push: screenshot every section
+
+A CSS edit once deleted the shared `.titleblock` rules and broke the hero, Education and Contact on the live site, because only the edited sections were checked. So before every push:
+
+1. `npm run build`, then serve it: `npx astro preview --port 4322`.
+2. `CHROME=/path/to/chrome node scripts/screenshots.mjs http://localhost:4322 shots`. It writes every section (hero, about, experience, projects, education, skills, contact) at 360px and 1280px, light and dark, into `shots/` (gitignored), and prints sideways overflow and CLS per page.
+3. Look at all of them, not only the sections you changed, and compare with the previous screenshots. Overflow must be `false` and CLS about 0.
+4. Review `git diff --stat` and the removed lines (`git diff | grep '^-'`), especially after deleting a block of CSS by range.
+
+Only push when every section matches.
+
 Astro docs: https://docs.astro.build
 
 ## Gotchas

@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# section screenshots (scripts/screenshots.mjs)
+shots/
