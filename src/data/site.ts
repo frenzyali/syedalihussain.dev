@@ -12,3 +12,13 @@ export const site = {
   description:
     'Syed Ali Hussain, DevOps Engineer in Rawalpindi, Pakistan. AWS, Docker, GitHub Actions, Terraform, Prometheus and Grafana. Cut a SaaS AWS bill by 53% and deploy time from 12 to 4 minutes.',
 };
+
+/** Page sections in order; the numbers show in the nav and the section headings. */
+export const sections = [
+  { id: 'about', n: '01', title: 'About' },
+  { id: 'experience', n: '02', title: 'Experience' },
+  { id: 'projects', n: '03', title: 'Projects' },
+  { id: 'education', n: '04', title: 'Education' },
+  { id: 'skills', n: '05', title: 'Skills' },
+  { id: 'contact', n: '06', title: 'Contact' },
+] as const;

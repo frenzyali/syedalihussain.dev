@@ -1,49 +1,62 @@
 ---
-const links = [
-  { href: '#about', label: 'About' },
-  { href: '#experience', label: 'Experience' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#education', label: 'Education' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#contact', label: 'Contact' },
-];
+import { sections } from '../data/site';
 ---
 
-<header class="wrap site-header">
-  <a class="brand" href="#top">syedalihussain.dev</a>
-  <nav aria-label="Sections">
-    <ul role="list">
-      {
-        links.map((link) => (
-          <li>
-            <a href={link.href}>{link.label}</a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
-  <button class="theme-toggle" type="button" data-theme-toggle hidden>Dark theme</button>
+<header class="top">
+  <div class="wrap top-inner">
+    <a class="brand" href="#top"><span class="mark" aria-hidden="true">SAH</span>syedalihussain.dev</a>
+    <nav aria-label="Sections">
+      <ul role="list">
+        {
+          sections.map((s) => (
+            <li>
+              <a href={`#${s.id}`}>
+                <span class="n">{s.n}</span>
+                {s.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <button class="toggle" type="button" data-theme-toggle hidden>Dark theme</button>
+  </div>
 </header>
 
 <style>
-  .site-header {
+  .top {
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+
+  .top-inner {
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-areas:
       'brand toggle'
       'nav nav';
     align-items: center;
-    gap: 0.75rem 1.5rem;
-    padding-block: 1.25rem;
-    font-family: var(--mono);
-    font-size: var(--step--1);
+    gap: 0.5rem 1.5rem;
+    padding-block: 0.875rem;
   }
 
   .brand {
     grid-area: brand;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
     color: var(--ink);
     font-weight: 600;
     text-decoration: none;
+  }
+
+  .mark {
+    padding: 0.125rem 0.375rem;
+    border: 1px solid var(--ink);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
   }
 
   nav {
@@ -54,7 +67,7 @@ const links = [
     padding-inline: var(--gutter);
   }
 
-  nav ul {
+  ul {
     display: flex;
     gap: 1.25rem;
     white-space: nowrap;
@@ -68,43 +81,46 @@ const links = [
   }
 
   nav a:hover {
-    color: var(--ink);
-    text-decoration: underline;
+    color: var(--accent);
   }
 
-  .theme-toggle {
+  .n {
+    margin-right: 0.375rem;
+    color: var(--accent);
+  }
+
+  .toggle {
     grid-area: toggle;
     padding: 0.375rem 0.625rem;
     border: 1px solid var(--rule);
-    border-radius: 4px;
-    background: transparent;
+    background: var(--surface);
     color: var(--ink-2);
     font: inherit;
     cursor: pointer;
   }
 
-  .theme-toggle:hover {
-    border-color: var(--ink-2);
+  .toggle:hover {
+    border-color: var(--accent);
     color: var(--ink);
   }
 
   /* Hidden until theme.js wires it up, but keeps its space so nothing shifts. */
-  .theme-toggle[hidden] {
+  .toggle[hidden] {
     display: block;
     visibility: hidden;
   }
 
-  @media (min-width: 52rem) {
-    .site-header {
+  @media (min-width: 56rem) {
+    .top-inner {
       grid-template-columns: auto 1fr auto;
       grid-template-areas: 'brand nav toggle';
     }
 
     nav {
       justify-self: end;
-      overflow: visible;
       margin: 0;
       padding: 0;
+      overflow: visible;
     }
   }
 </style>

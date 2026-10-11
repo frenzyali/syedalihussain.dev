@@ -1,0 +1,10 @@
+---
+// Renders a string where `backticked` words are tool names set in the mono face.
+interface Props {
+  text: string;
+}
+
+const parts = Astro.props.text.split('`');
+---
+
+{parts.map((part, i) => (i % 2 ? <span class="tool">{part}</span> : part))}

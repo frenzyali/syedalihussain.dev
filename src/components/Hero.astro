@@ -1,77 +1,94 @@
 ---
 import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { aiit } from '../data/experience';
 ---
 
 <section class="wrap hero" id="top" aria-labelledby="name">
-  <h1 id="name">{site.name}</h1>
-  <dl class="facts">
-    <div>
-      <dt>role</dt>
-      <dd>{site.title}</dd>
+  <div class="frame">
+    <span class="corner tl" aria-hidden="true"></span>
+    <span class="corner tr" aria-hidden="true"></span>
+    <span class="corner bl" aria-hidden="true"></span>
+    <span class="corner br" aria-hidden="true"></span>
+    <div class="hero-main">
+      <h1 id="name">{site.name}</h1>
+      <p class="summary">{site.summary}</p>
+      <ul class="actions" role="list">
+        <li><a class="btn primary" href={site.cv} download><Icon name="download" />Download CV</a></li>
+        <li><a class="btn" href={site.github}><Icon name="github" />GitHub</a></li>
+        <li><a class="btn" href="#contact"><Icon name="mail" />Contact</a></li>
+      </ul>
     </div>
-    <div>
-      <dt>based in</dt>
-      <dd>{site.location}</dd>
-    </div>
-    <div>
-      <dt>currently at</dt>
-      <dd>AIIT Solutions</dd>
-    </div>
-  </dl>
-  <p class="summary">{site.summary}</p>
-  <ul class="actions" role="list">
-    <li>
-      <a class="button primary" href={site.cv} download>
-        <Icon name="download" />Download CV
-      </a>
-    </li>
-    <li>
-      <a class="button" href={site.github}>
-        <Icon name="github" />GitHub
-      </a>
-    </li>
-    <li>
-      <a class="button" href="#contact">
-        <Icon name="mail" />Contact
-      </a>
-    </li>
-  </ul>
+    <dl class="titleblock">
+      <div><dt>role</dt><dd>{site.title}</dd></div>
+      <div><dt>location</dt><dd>{site.location}</dd></div>
+      <div><dt>employer</dt><dd>{aiit.org}</dd></div>
+      <div><dt>since</dt><dd>{aiit.start.label}</dd></div>
+    </dl>
+  </div>
 </section>
 
 <style>
   .hero {
-    padding-block: clamp(3rem, 8vw, 6.5rem) clamp(3rem, 7vw, 5.5rem);
+    padding-block: clamp(2rem, 6vw, 4.5rem);
+  }
+
+  /* A drawing frame with registration corners and a title block. */
+  .frame {
+    position: relative;
+    display: grid;
+    gap: 2.5rem;
+    padding: clamp(1.25rem, 4vw, 3rem);
+    border: 1px solid var(--rule);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+  }
+
+  .corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 0 solid var(--accent);
+  }
+
+  .tl {
+    top: -5px;
+    left: -5px;
+    border-top-width: 2px;
+    border-left-width: 2px;
+  }
+
+  .tr {
+    top: -5px;
+    right: -5px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+  }
+
+  .bl {
+    bottom: -5px;
+    left: -5px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+  }
+
+  .br {
+    bottom: -5px;
+    right: -5px;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
   }
 
   h1 {
-    font-size: var(--step-4);
-    font-weight: 650;
-    line-height: 1.02;
-    letter-spacing: -0.035em;
-    max-width: 12ch;
-  }
-
-  .facts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 2.5rem;
-    margin-top: 2rem;
-    font-family: var(--mono);
-    font-size: var(--step--1);
-  }
-
-  .facts dt {
-    color: var(--ink-2);
-  }
-
-  .facts dd {
+    font-family: var(--display);
+    font-size: clamp(3rem, 1.5rem + 6.5vw, 6.25rem);
     font-weight: 600;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
   }
 
   .summary {
     max-width: 34rem;
-    margin-top: 2rem;
+    margin-top: 1.75rem;
     font-size: var(--step-1);
     line-height: 1.5;
   }
@@ -80,36 +97,41 @@ import { site } from '../data/site';
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 2.25rem;
+    margin-top: 2rem;
   }
 
-  .button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 2.75rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    background: var(--surface);
-    color: var(--ink);
+  .titleblock {
+    align-self: end;
+    display: grid;
+    border: 1px solid var(--ink);
     font-family: var(--mono);
     font-size: var(--step--1);
-    text-decoration: none;
   }
 
-  .button:hover {
-    border-color: var(--ink-2);
+  .titleblock div {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
   }
 
-  .button.primary {
-    border-color: var(--accent);
-    background: var(--accent);
-    color: var(--accent-ink);
+  .titleblock div + div {
+    border-top: 1px solid var(--rule);
+  }
+
+  .titleblock dt {
+    padding: 0.5rem 0.75rem;
+    border-right: 1px solid var(--rule);
+    color: var(--ink-2);
+  }
+
+  .titleblock dd {
+    padding: 0.5rem 0.75rem;
     font-weight: 600;
   }
 
-  .button.primary:hover {
-    border-color: var(--ink);
+  @media (min-width: 60rem) {
+    .frame {
+      grid-template-columns: minmax(0, 1fr) 20rem;
+      align-items: end;
+    }
   }
 </style>

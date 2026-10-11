@@ -14,61 +14,83 @@
   font-display: swap;
 }
 
+/* Preloaded; "optional" means a slow load keeps the fallback instead of reflowing the big headings. */
+@font-face {
+  font-family: 'IBM Plex Sans Condensed';
+  src: url('/fonts/ibm-plex-sans-condensed-latin-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: optional;
+}
+
 :root {
   color-scheme: light;
 
-  --bg: #f3f4f2;
-  --surface: #fbfbfa;
-  --ink: #16191c;
-  --ink-2: #4a535b;
-  --rule: #d3d7d5;
-  --accent: #0a6a63;
+  /* Light: drafting paper with blue ink. */
+  --bg: #f6f8fa;
+  --grid: #e6ecf1;
+  --grid-major: #d8e1e9;
+  --surface: #ffffff;
+  --ink: #0d1f33;
+  --ink-2: #4c6176;
+  --rule: #b6c4d2;
+  --accent: #1456b0;
   --accent-ink: #ffffff;
-  --bar-before: #87929a;
-  --bar-after: #0a6a63;
+  --ok: #1a7f4b;
+  --pending: #8a5a00;
+  --bar-before: #9aa9b8;
+  --bar-after: #1456b0;
 
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   /* Every fallback here has a 0.6em advance, like Plex Mono, so the swap doesn't reflow text. */
   --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  --display: 'IBM Plex Sans Condensed', 'Arial Narrow', sans-serif-condensed, var(--sans);
 
   --step--1: 0.8125rem;
   --step-0: 1.0625rem;
   --step-1: 1.25rem;
   --step-2: 1.5625rem;
-  --step-4: clamp(2.5rem, 1.6rem + 4.5vw, 4.25rem);
 
   --gutter: 1rem;
   --page: 70rem;
-  --label-col: 11rem;
   --measure: 40rem;
 }
 
+/* Dark: a cyanotype blueprint, not an inversion of the light theme. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --bg: #121619;
-    --surface: #191e22;
-    --ink: #e3e7e9;
-    --ink-2: #9ba5ad;
-    --rule: #2b3237;
-    --accent: #4dbfb2;
-    --accent-ink: #0b1513;
-    --bar-before: #66737c;
-    --bar-after: #3a9e91;
+    --bg: #0b2540;
+    --grid: #102d4b;
+    --grid-major: #163757;
+    --surface: #0d2a47;
+    --ink: #e8f1fa;
+    --ink-2: #a3bbd2;
+    --rule: #2f5579;
+    --accent: #8cc8ff;
+    --accent-ink: #06223d;
+    --ok: #5ad19a;
+    --pending: #f2c46b;
+    --bar-before: #4f7092;
+    --bar-after: #8cc8ff;
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #121619;
-  --surface: #191e22;
-  --ink: #e3e7e9;
-  --ink-2: #9ba5ad;
-  --rule: #2b3237;
-  --accent: #4dbfb2;
-  --accent-ink: #0b1513;
-  --bar-before: #66737c;
-  --bar-after: #3a9e91;
+  --bg: #0b2540;
+  --grid: #102d4b;
+  --grid-major: #163757;
+  --surface: #0d2a47;
+  --ink: #e8f1fa;
+  --ink-2: #a3bbd2;
+  --rule: #2f5579;
+  --accent: #8cc8ff;
+  --accent-ink: #06223d;
+  --ok: #5ad19a;
+  --pending: #f2c46b;
+  --bar-before: #4f7092;
+  --bar-after: #8cc8ff;
 }
 
 @media (min-width: 40rem) {
@@ -95,9 +117,20 @@ html {
   }
 }
 
+/* Graph paper: 1px lines every 16px, heavier every 80px. Hard stops, so these draw lines, not fades. */
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:
+    80px 80px,
+    80px 80px,
+    16px 16px,
+    16px 16px;
   color: var(--ink);
   font-family: var(--sans);
   font-size: var(--step-0);
@@ -136,7 +169,6 @@ a:hover {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
 }
 
 svg {
@@ -180,4 +212,65 @@ svg {
   max-width: var(--page);
   margin-inline: auto;
   padding-inline: var(--gutter);
+}
+
+/* Buttons: an offset "print shadow" that lifts on hover and presses on click. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--ink);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: var(--step--1);
+  text-decoration: none;
+  box-shadow: 3px 3px 0 var(--rule);
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--accent);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--accent);
+}
+
+.btn.primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+}
+
+/* Results bars grow to their width as they scroll into view. CSS only: browsers without
+   scroll-driven animations, and visitors who prefer reduced motion, see the final width. */
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .grow {
+      transform-origin: left center;
+      animation: grow linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 40%;
+    }
+  }
 }

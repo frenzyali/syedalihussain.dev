@@ -3,6 +3,11 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import { site } from '../data/site';
 
+const preload = [
+  '/fonts/ibm-plex-mono-latin-400.woff2',
+  '/fonts/ibm-plex-sans-condensed-latin-600.woff2',
+];
+
 const pageTitle = `${site.name} | ${site.title}`;
 
 const person = {
@@ -43,17 +48,11 @@ const person = {
     <meta name="description" content={site.description} />
     <link rel="canonical" href={site.url} />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f3f4f2" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#121619" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b2540" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap.xml" />
-    <link
-      rel="preload"
-      href="/fonts/ibm-plex-mono-latin-400.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    {preload.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
 
     <meta property="og:type" content="profile" />
     <meta property="og:url" content={site.url} />
