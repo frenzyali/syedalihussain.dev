@@ -1,0 +1,133 @@
+---
+import Section from './Section.astro';
+
+const units = [
+  'Docker',
+  'Kubernetes Admin',
+  'Kubernetes App Developer',
+  'Kubernetes Security',
+  'Ansible',
+  'AWS Solution Architecture',
+  'Azure Administration',
+  'Cloud Security',
+  'Python automation',
+  'Machine Learning',
+  'Deep Learning',
+  'Computer Vision',
+  'NLP',
+];
+---
+
+<Section id="education">
+  <ol class="rail" role="list">
+    <li class="entry">
+      <header class="entry-head">
+        <h3>EduQual Diploma in Artificial Intelligence Operations</h3>
+        <p class="entry-sub">Al Nafi International College</p>
+        <p class="dates">
+          <time datetime="2024-07">Jul 2024</time> – <time datetime="2025-10">Oct 2025</time>
+        </p>
+      </header>
+
+      <div class="diploma">
+        <dl class="titleblock">
+          <div><dt>level</dt><dd>UK RQF Level 6</dd></div>
+          <div>
+            <dt>awarded by</dt><dd>EduQual, a UK regulated awarding organisation</dd>
+          </div>
+          <div><dt>issued</dt><dd><time datetime="2025-10">October 2025</time></dd></div>
+          <div><dt>grade</dt><dd>A / Distinction (88%)</dd></div>
+        </dl>
+        <p class="grade" aria-hidden="true">
+          <span class="score">88%</span>
+          <span class="grade-label">overall grade</span>
+        </p>
+      </div>
+
+      <p class="project">
+        <span class="label">Final project</span>
+        Designing a GitOps-Based Multi-Cloud DevSecOps Pipeline for Financial Services Compliance
+      </p>
+
+      <ul class="units" role="list" aria-label="Unit areas">
+        {units.map((u) => <li>{u}</li>)}
+      </ul>
+    </li>
+
+    <li class="entry minor">
+      <header class="entry-head">
+        <h3>HSSC (Intermediate), Science General group</h3>
+        <p class="entry-sub">Board of Intermediate Education Karachi, Grade A</p>
+        <p class="dates"><time datetime="2025">2025</time></p>
+      </header>
+    </li>
+  </ol>
+</Section>
+
+<style>
+  .diploma {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    max-width: 52rem;
+  }
+
+  .grade {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .score {
+    color: var(--accent);
+    font-family: var(--display);
+    font-size: 4.5rem;
+    font-weight: 600;
+    line-height: 0.9;
+  }
+
+  .grade-label {
+    margin-top: 0.5rem;
+    color: var(--ink-2);
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+
+  @media (min-width: 48rem) {
+    .diploma {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 2.5rem;
+    }
+  }
+
+  .project {
+    max-width: var(--measure);
+    margin-top: 1.5rem;
+    font-size: var(--step-1);
+    line-height: 1.4;
+  }
+
+  .label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--ink-2);
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+
+  .units {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 52rem;
+    margin-top: 1.5rem;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+  }
+
+  .units li {
+    padding: 0.125rem 0.5rem;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+  }
+</style>

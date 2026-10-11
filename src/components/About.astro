@@ -1,0 +1,38 @@
+---
+import Section from './Section.astro';
+---
+
+<Section id="about">
+  <div class="about">
+    <p>
+      I'm a DevOps engineer at AIIT Solutions in Rawalpindi, where I run the AWS infrastructure,
+      CI/CD and monitoring for HR360HUB, a multi-service Laravel SaaS.
+    </p>
+    <p>
+      Before that I interned at Al Nafi, working with AWS, Terraform, Kubernetes on EKS, Prometheus
+      and Grafana, and at Cloudlem on CI/CD reliability.
+    </p>
+    <p>
+      In October 2025 I completed the EduQual Level 6 Diploma in Artificial Intelligence Operations
+      with a Distinction (88%).
+    </p>
+    <p class="now">
+      Currently applying for Master's programmes in Europe for 2027 and open to remote DevOps roles.
+    </p>
+  </div>
+</Section>
+
+<style>
+  .about {
+    display: grid;
+    gap: 1rem;
+    max-width: 44rem;
+    font-size: var(--step-1);
+    line-height: 1.55;
+  }
+
+  .now {
+    padding-left: 1rem;
+    border-left: 2px solid var(--accent);
+  }
+</style>

@@ -6,10 +6,10 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
 
 <Section id="experience">
   <ol class="rail" role="list">
-    <li class="job">
-      <header class="job-head">
+    <li class="entry">
+      <header class="entry-head">
         <h3>{aiit.org}</h3>
-        <p class="role">{aiit.role}, {aiit.location}</p>
+        <p class="entry-sub">{aiit.role}, {aiit.location}</p>
         <p class="dates"><time datetime={aiit.start.iso}>{aiit.start.label}</time> – present</p>
       </header>
       <p class="lead">{aiit.lead}</p>
@@ -71,10 +71,10 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
 
     {
       internships.map((job) => (
-        <li class="job small">
-          <header class="job-head">
+        <li class="entry minor">
+          <header class="entry-head">
             <h3>{job.org}</h3>
-            <p class="role">{job.role}</p>
+            <p class="entry-sub">{job.role}</p>
             <p class="dates">
               <time datetime={job.start.iso}>{job.start.label}</time> –{' '}
               <time datetime={job.end!.iso}>{job.end!.label}</time>
@@ -92,73 +92,6 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
 </Section>
 
 <style>
-  /* Timeline rail: the jobs are a dated sequence, so they hang off one line. */
-  .rail {
-    margin-left: 0.3125rem;
-    border-left: 1px solid var(--rule);
-  }
-
-  .job {
-    position: relative;
-    padding: 0 0 3rem clamp(1.25rem, 3vw, 2.25rem);
-  }
-
-  .job:last-child {
-    padding-bottom: 0.5rem;
-  }
-
-  .job::before {
-    content: '';
-    position: absolute;
-    top: 0.55rem;
-    left: -6px;
-    width: 11px;
-    height: 11px;
-    border: 2px solid var(--accent);
-    background: var(--bg);
-  }
-
-  .job.small::before {
-    border-color: var(--ink-2);
-  }
-
-  .job-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.25rem 1rem;
-  }
-
-  h3 {
-    font-family: var(--display);
-    font-size: var(--step-2);
-    font-weight: 600;
-    line-height: 1.2;
-  }
-
-  .role {
-    color: var(--ink-2);
-  }
-
-  .dates {
-    margin-left: auto;
-    color: var(--ink-2);
-    font-family: var(--mono);
-    font-size: var(--step--1);
-  }
-
-  .lead {
-    max-width: var(--measure);
-    margin-top: 1rem;
-    font-size: var(--step-1);
-    line-height: 1.5;
-  }
-
-  .body {
-    max-width: var(--measure);
-    margin-top: 0.75rem;
-  }
-
   /* Results as a monitoring dashboard. */
   .dash {
     display: grid;
@@ -235,7 +168,7 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
 
   .now {
     font-family: var(--display);
-    font-size: 2.25rem;
+    font-size: 3rem;
     font-weight: 600;
     line-height: 1;
   }
@@ -309,12 +242,5 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
     width: 7px;
     height: 7px;
     border: 1px solid var(--accent);
-  }
-
-  @media (max-width: 30rem) {
-    .dates {
-      flex-basis: 100%;
-      margin-left: 0;
-    }
   }
 </style>

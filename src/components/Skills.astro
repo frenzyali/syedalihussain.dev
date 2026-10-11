@@ -1,0 +1,73 @@
+---
+import Section from './Section.astro';
+
+const groups = [
+  { name: 'Cloud', items: ['AWS: EC2, RDS, S3, Lambda, CloudWatch, SNS', 'Azure'] },
+  { name: 'Containers', items: ['Docker', 'Docker Compose', 'Kubernetes', 'Helm'] },
+  { name: 'IaC & config', items: ['Terraform', 'Ansible'] },
+  { name: 'CI/CD', items: ['GitHub Actions, incl. self-hosted runners', 'Jenkins'] },
+  { name: 'Observability', items: ['Prometheus', 'Grafana', 'Loki', 'CloudWatch'] },
+  {
+    name: 'Linux & networking',
+    items: ['RHEL', 'Ubuntu', 'Nginx', 'MikroTik', 'Hyper-V', 'Active Directory'],
+  },
+  { name: 'Data', items: ['PostgreSQL', 'Redis'] },
+  { name: 'Languages', items: ['Bash', 'Python'] },
+];
+---
+
+<Section id="skills">
+  <ul class="groups" role="list">
+    {
+      groups.map((g) => (
+        <li class="group">
+          <h3>{g.name}</h3>
+          <ul role="list">
+            {g.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--rule);
+    background: var(--rule);
+  }
+
+  @media (min-width: 56rem) {
+    .groups {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .group {
+    min-width: 0;
+    padding: 1rem clamp(0.75rem, 2vw, 1.125rem) 1.25rem;
+    background: var(--surface);
+  }
+
+  h3 {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--rule);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .group ul {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 0.75rem;
+    font-family: var(--mono);
+    font-size: 0.875rem;
+  }
+</style>

@@ -10,8 +10,8 @@ import { aiit } from '../data/experience';
     <span class="corner tr" aria-hidden="true"></span>
     <span class="corner bl" aria-hidden="true"></span>
     <span class="corner br" aria-hidden="true"></span>
-    <div class="hero-main">
-      <h1 id="name">{site.name}</h1>
+    <h1 id="name">{site.name}</h1>
+    <div class="intro">
       <p class="summary">{site.summary}</p>
       <ul class="actions" role="list">
         <li><a class="btn primary" href={site.cv} download><Icon name="download" />Download CV</a></li>
@@ -36,8 +36,9 @@ import { aiit } from '../data/experience';
   /* A drawing frame with registration corners and a title block. */
   .frame {
     position: relative;
+    container-type: inline-size;
     display: grid;
-    gap: 2.5rem;
+    gap: 2rem 3rem;
     padding: clamp(1.25rem, 4vw, 3rem);
     border: 1px solid var(--rule);
     background: color-mix(in srgb, var(--bg) 82%, transparent);
@@ -78,17 +79,24 @@ import { aiit } from '../data/experience';
     border-right-width: 2px;
   }
 
+  /* Sized from the frame's width: two lines on phones (each line is ~3.25em wide),
+     one line edge to edge from 40rem (the full name is ~6.66em wide). */
   h1 {
     font-family: var(--display);
-    font-size: clamp(3rem, 1.5rem + 6.5vw, 6.25rem);
+    font-size: calc(100cqi / 3.35);
     font-weight: 600;
-    line-height: 0.92;
-    letter-spacing: -0.01em;
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 40rem) {
+    h1 {
+      font-size: calc(100cqi / 6.8);
+    }
   }
 
   .summary {
     max-width: 34rem;
-    margin-top: 1.75rem;
     font-size: var(--step-1);
     line-height: 1.5;
   }
@@ -101,37 +109,16 @@ import { aiit } from '../data/experience';
   }
 
   .titleblock {
-    align-self: end;
-    display: grid;
-    border: 1px solid var(--ink);
-    font-family: var(--mono);
-    font-size: var(--step--1);
-  }
-
-  .titleblock div {
-    display: grid;
-    grid-template-columns: 6.5rem 1fr;
-  }
-
-  .titleblock div + div {
-    border-top: 1px solid var(--rule);
-  }
-
-  .titleblock dt {
-    padding: 0.5rem 0.75rem;
-    border-right: 1px solid var(--rule);
-    color: var(--ink-2);
-  }
-
-  .titleblock dd {
-    padding: 0.5rem 0.75rem;
-    font-weight: 600;
+    align-self: start;
   }
 
   @media (min-width: 60rem) {
     .frame {
       grid-template-columns: minmax(0, 1fr) 20rem;
-      align-items: end;
+    }
+
+    h1 {
+      grid-column: 1 / -1;
     }
   }
 </style>
