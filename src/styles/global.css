@@ -296,9 +296,10 @@ svg {
   overflow-wrap: break-word;
 }
 
+/* Phones: a narrower key column so short values like "Rawalpindi, Pakistan" stay on one line. */
 @media (max-width: 30rem) {
   .titleblock > div {
-    grid-template-columns: 6.5rem minmax(0, 1fr);
+    grid-template-columns: 5.75rem minmax(0, 1fr);
   }
 }
 

@@ -108,6 +108,23 @@ import { aiit } from '../data/experience';
     margin-top: 2rem;
   }
 
+  /* Phones: Download CV gets its own row; GitHub and Contact share the row below. */
+  @media (max-width: 30rem) {
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .actions li:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .actions .btn {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+
   .titleblock {
     align-self: start;
   }
