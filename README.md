@@ -21,11 +21,11 @@ npm run preview  # serves dist/ locally
 public/
   _headers          Cloudflare Pages security and cache headers
   cv/               Syed-Ali-Hussain-CV.pdf goes here
-  fonts/            IBM Plex Mono, Latin subset, 400 and 600 (SIL OFL, see OFL.txt)
+  fonts/            IBM Plex Sans Condensed 600 and IBM Plex Mono 400/600, Latin subsets (SIL OFL, see OFL.txt)
   theme.js          light/dark toggle, stored in localStorage
   robots.txt, sitemap.xml, favicon.svg
 src/
-  data/site.ts      name, links, summary
+  data/             site.ts (name, links, sections), experience.ts (jobs and results)
   layouts/Base.astro
   components/       one component per section
   styles/global.css design tokens and base styles
@@ -54,8 +54,7 @@ Steps:
 ## TODO
 
 - Add a 1200×630 Open Graph image, then add `og:image` and switch the Twitter card to `summary_large_image`.
-- Add `public/cv/Syed-Ali-Hussain-CV.pdf`.
 
 ## Licence
 
-The IBM Plex Mono font files are licensed under the SIL Open Font License 1.1 (`public/fonts/OFL.txt`).
+The IBM Plex font files are licensed under the SIL Open Font License 1.1 (`public/fonts/OFL.txt`).
