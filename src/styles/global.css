@@ -1,0 +1,183 @@
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/ibm-plex-mono-latin-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/ibm-plex-mono-latin-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+
+  --bg: #f3f4f2;
+  --surface: #fbfbfa;
+  --ink: #16191c;
+  --ink-2: #4a535b;
+  --rule: #d3d7d5;
+  --accent: #0a6a63;
+  --accent-ink: #ffffff;
+  --bar-before: #87929a;
+  --bar-after: #0a6a63;
+
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  /* Every fallback here has a 0.6em advance, like Plex Mono, so the swap doesn't reflow text. */
+  --mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: 1.5625rem;
+  --step-4: clamp(2.5rem, 1.6rem + 4.5vw, 4.25rem);
+
+  --gutter: 1rem;
+  --page: 70rem;
+  --label-col: 11rem;
+  --measure: 40rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: #121619;
+    --surface: #191e22;
+    --ink: #e3e7e9;
+    --ink-2: #9ba5ad;
+    --rule: #2b3237;
+    --accent: #4dbfb2;
+    --accent-ink: #0b1513;
+    --bar-before: #66737c;
+    --bar-after: #3a9e91;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #121619;
+  --surface: #191e22;
+  --ink: #e3e7e9;
+  --ink-2: #9ba5ad;
+  --rule: #2b3237;
+  --accent: #4dbfb2;
+  --accent-ink: #0b1513;
+  --bar-before: #66737c;
+  --bar-after: #3a9e91;
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+svg {
+  display: block;
+}
+
+.tool {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -3rem;
+  z-index: 10;
+  padding: 0.5rem 0.75rem;
+  background: var(--ink);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: var(--step--1);
+}
+
+.skip-link:focus {
+  top: 0.5rem;
+}
+
+.wrap {
+  max-width: var(--page);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}

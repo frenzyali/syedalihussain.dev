@@ -1,0 +1,110 @@
+---
+const links = [
+  { href: '#about', label: 'About' },
+  { href: '#experience', label: 'Experience' },
+  { href: '#projects', label: 'Projects' },
+  { href: '#education', label: 'Education' },
+  { href: '#skills', label: 'Skills' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="wrap site-header">
+  <a class="brand" href="#top">syedalihussain.dev</a>
+  <nav aria-label="Sections">
+    <ul role="list">
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <button class="theme-toggle" type="button" data-theme-toggle hidden>Dark theme</button>
+</header>
+
+<style>
+  .site-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'brand toggle'
+      'nav nav';
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    padding-block: 1.25rem;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+
+  .brand {
+    grid-area: brand;
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  nav {
+    grid-area: nav;
+    /* Lets the links scroll sideways on narrow phones instead of widening the page. */
+    overflow-x: auto;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+
+  nav ul {
+    display: flex;
+    gap: 1.25rem;
+    white-space: nowrap;
+  }
+
+  nav a {
+    display: inline-block;
+    padding-block: 0.375rem;
+    color: var(--ink-2);
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .theme-toggle {
+    grid-area: toggle;
+    padding: 0.375rem 0.625rem;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--ink-2);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--ink-2);
+    color: var(--ink);
+  }
+
+  /* Hidden until theme.js wires it up, but keeps its space so nothing shifts. */
+  .theme-toggle[hidden] {
+    display: block;
+    visibility: hidden;
+  }
+
+  @media (min-width: 52rem) {
+    .site-header {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: 'brand nav toggle';
+    }
+
+    nav {
+      justify-self: end;
+      overflow: visible;
+      margin: 0;
+      padding: 0;
+    }
+  }
+</style>
