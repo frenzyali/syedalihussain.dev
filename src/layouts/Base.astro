@@ -9,7 +9,15 @@ const preload = [
   '/fonts/ibm-plex-sans-condensed-latin-600.woff2',
 ];
 
-const pageTitle = `${site.name} | ${site.title}`;
+interface Props {
+  /** Page-specific title; the home page uses "Name | Title". */
+  title?: string;
+  /** For pages that shouldn't be indexed (the 404 page). Also drops the canonical link. */
+  noindex?: boolean;
+}
+
+const { title, noindex = false } = Astro.props;
+const pageTitle = title ?? `${site.name} | ${site.title}`;
 
 const person = {
   '@context': 'https://schema.org',
@@ -47,7 +55,7 @@ const person = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={site.description} />
-    <link rel="canonical" href={site.url} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={site.url} />}
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0b2540" media="(prefers-color-scheme: dark)" />

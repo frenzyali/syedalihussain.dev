@@ -19,7 +19,7 @@ npm run preview  # serves dist/ locally
 
 ```text
 public/
-  _headers          Cloudflare Pages security and cache headers
+  _headers          security and cache headers, applied by Cloudflare
   cv/               the CV PDF linked from the hero
   fonts/            IBM Plex Sans Condensed 600 and IBM Plex Mono 400/600, Latin subsets (SIL OFL, see OFL.txt)
   theme.js          light/dark toggle, stored in localStorage
@@ -29,29 +29,43 @@ src/
   data/             site.ts (name, links, sections), experience.ts (jobs and results)
   layouts/Base.astro
   components/       one component per section, plus Header, Section, Icon, Rich
-  pages/index.astro the single page
+  pages/            index.astro (the single page) and 404.astro
   styles/global.css design tokens and base styles
 ```
 
-## Deploy (Cloudflare Pages)
+## Deploy (Cloudflare Workers, static assets)
 
-The site deploys from the GitHub repo `frenzyali/syedalihussain.dev`.
+The site is served as static assets by a Cloudflare Worker with no Worker script. `wrangler.jsonc` points it at `dist/` and serves `dist/404.html` for unknown paths.
 
 | Setting | Value |
 | --- | --- |
-| Framework preset | Astro |
-| Production branch | `main` |
+| Node | 22 (`.nvmrc`) |
 | Build command | `npm run build` |
-| Build output directory | `dist` |
-| Environment variable | `NODE_VERSION` = `22` |
+| Deploy command | `npx wrangler deploy` |
+| Config | `wrangler.jsonc` (Worker `syedalihussain-dev`, assets from `./dist`) |
 
-Steps:
+Wrangler isn't a project dependency; `npx` fetches it when you deploy. The `$schema` path in `wrangler.jsonc` only resolves for editor hints if Wrangler is installed locally.
 
-1. In the Cloudflare dashboard, go to **Workers & Pages → Create → Pages → Connect to Git** and pick `frenzyali/syedalihussain.dev`.
-2. Enter the settings above and deploy.
-3. Under **Custom domains**, add `syedalihussain.dev`.
+From your machine:
 
-`public/_headers` is copied to `dist/` and applied by Cloudflare Pages. It sets a same-origin-only Content Security Policy, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` and `Cross-Origin-Opener-Policy`, plus long-lived caching for `/_astro/*` and `/fonts/*`.
+```sh
+npm run build
+npx wrangler login   # once
+npx wrangler deploy
+```
+
+From GitHub (Workers Builds): in the Cloudflare dashboard go to **Workers & Pages → Create → Import a repository**, pick `frenzyali/syedalihussain.dev`, and set the build command to `npm run build` and the deploy command to `npx wrangler deploy`. Then add `syedalihussain.dev` under the Worker's **Settings → Domains & Routes**.
+
+To check a build locally with the production headers and 404 handling: `npm run build && npx wrangler dev`.
+
+`public/_headers` is copied to `dist/` and applied to the static assets. It sets a same-origin-only Content Security Policy, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` and `Cross-Origin-Opener-Policy`, plus long-lived caching for `/_astro/*` and `/fonts/*`.
+
+### www → apex redirect
+
+`_redirects` in Workers static assets can't match on hostname (domain-level redirects are unsupported), so the www redirect is a zone rule instead:
+
+1. DNS: add a proxied record for `www` (for example `AAAA www 100::`, proxied).
+2. **Rules → Redirect Rules → Create rule** from the "Redirect from WWW to root" template, or a custom rule: hostname equals `www.syedalihussain.dev`, dynamic redirect to `concat("https://syedalihussain.dev", http.request.uri.path)`, status 301, preserve query string.
 
 ## TODO
 

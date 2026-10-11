@@ -42,6 +42,8 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European 
 - `src/data/experience.ts`: jobs and results. Tool names in `points` are wrapped in backticks and rendered by `Rich.astro`. The build fails if results aren't reductions (0 <= after < before).
 - `src/layouts/Base.astro`: `<head>` (meta, Open Graph, Twitter card, JSON-LD, font preloads), header and footer.
 - `src/components/`: one component per section (Hero, About … Contact), plus Header, `Section` (numbered heading), `Icon` (inline SVGs) and `Rich` (backticks to mono).
+- `src/pages/`: `index.astro` (the single page) and `404.astro` (served by Workers for unknown paths; `noindex`).
+- `wrangler.jsonc`: deploys `dist/` as Cloudflare Workers static assets. Wrangler is run with `npx`, not installed. The www → apex redirect is a Cloudflare Redirect Rule, because `_redirects` can't match hostnames.
 - `public/`: `_headers`, `robots.txt`, `sitemap.xml`, `favicon.svg`, `theme.js`, `motion.js`, fonts and `cv/Syed-Ali-Hussain-CV.pdf` (linked from the hero).
 
 ## Development

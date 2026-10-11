@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title={`Page not found | ${site.name}`} noindex>
+  <section class="wrap missing" aria-labelledby="missing-title">
+    <p class="code">404</p>
+    <h1 id="missing-title">There's no page at this address.</h1>
+    <p class="hint">This site is a single page. Everything is on the homepage.</p>
+    <a class="btn primary" href="/">Go to the homepage</a>
+  </section>
+</Base>
+
+<style>
+  .missing {
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    padding-block: clamp(3rem, 10vw, 7rem);
+  }
+
+  .code {
+    color: var(--accent);
+    font-family: var(--display);
+    font-size: clamp(5rem, 3rem + 10vw, 9rem);
+    font-weight: 600;
+    line-height: 0.85;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: var(--step-2);
+    font-weight: 600;
+  }
+
+  .hint {
+    max-width: var(--measure);
+    color: var(--ink-2);
+  }
+
+  .btn {
+    margin-top: 1rem;
+  }
+</style>

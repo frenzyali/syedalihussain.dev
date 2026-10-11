@@ -4,13 +4,13 @@ import { sections } from '../data/site';
 
 <header class="top">
   <div class="wrap top-inner">
-    <a class="brand" href="#top"><span class="mark" aria-hidden="true">SAH</span>syedalihussain.dev</a>
+    <a class="brand" href="/#top"><span class="mark" aria-hidden="true">SAH</span>syedalihussain.dev</a>
     <nav aria-label="Sections">
       <ul role="list">
         {
           sections.map((s) => (
             <li>
-              <a href={`#${s.id}`}>
+              <a href={`/#${s.id}`}>
                 <span class="n">{s.n}</span>{' '}
                 {s.title}
               </a>
