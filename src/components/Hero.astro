@@ -1,0 +1,115 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+
+<section class="wrap hero" id="top" aria-labelledby="name">
+  <h1 id="name">{site.name}</h1>
+  <dl class="facts">
+    <div>
+      <dt>role</dt>
+      <dd>{site.title}</dd>
+    </div>
+    <div>
+      <dt>based in</dt>
+      <dd>{site.location}</dd>
+    </div>
+    <div>
+      <dt>currently at</dt>
+      <dd>AIIT Solutions</dd>
+    </div>
+  </dl>
+  <p class="summary">{site.summary}</p>
+  <ul class="actions" role="list">
+    <li>
+      <a class="button primary" href={site.cv} download>
+        <Icon name="download" />Download CV
+      </a>
+    </li>
+    <li>
+      <a class="button" href={site.github}>
+        <Icon name="github" />GitHub
+      </a>
+    </li>
+    <li>
+      <a class="button" href="#contact">
+        <Icon name="mail" />Contact
+      </a>
+    </li>
+  </ul>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 8vw, 6.5rem) clamp(3rem, 7vw, 5.5rem);
+  }
+
+  h1 {
+    font-size: var(--step-4);
+    font-weight: 650;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    max-width: 12ch;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2.5rem;
+    margin-top: 2rem;
+    font-family: var(--mono);
+    font-size: var(--step--1);
+  }
+
+  .facts dt {
+    color: var(--ink-2);
+  }
+
+  .facts dd {
+    font-weight: 600;
+  }
+
+  .summary {
+    max-width: 34rem;
+    margin-top: 2rem;
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.25rem;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    text-decoration: none;
+  }
+
+  .button:hover {
+    border-color: var(--ink-2);
+  }
+
+  .button.primary {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+  }
+
+  .button.primary:hover {
+    border-color: var(--ink);
+  }
+</style>

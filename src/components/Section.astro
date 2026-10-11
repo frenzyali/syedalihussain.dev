@@ -1,0 +1,58 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+---
+
+<section class="wrap section" id={id} aria-labelledby={`${id}-title`}>
+  <h2 id={`${id}-title`}>{title}</h2>
+  <div class="body">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: 3rem;
+    scroll-margin-top: 1rem;
+  }
+
+  h2 {
+    padding-top: 0.75rem;
+    border-top: 2px solid var(--ink);
+    font-family: var(--mono);
+    font-size: var(--step--1);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .body {
+    min-width: 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  @media (min-width: 52rem) {
+    .section {
+      grid-template-columns: var(--label-col) minmax(0, 1fr);
+      gap: 2rem;
+      padding-block: 4rem;
+    }
+  }
+
+  @media (max-width: 51.99rem) {
+    h2 {
+      border-top-width: 1px;
+    }
+
+    .body {
+      padding-top: 0;
+      border-top: 0;
+    }
+  }
+</style>
