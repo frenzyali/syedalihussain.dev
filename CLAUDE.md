@@ -21,7 +21,7 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European 
 `public/_headers` sets a CSP that only allows same-origin scripts and styles. Because of that:
 
 - No inline `<script>` (except `type="application/ld+json"`), no `style="..."` attributes, no `define:vars`.
-- Client JS lives in `public/theme.js`, loaded with `<script is:inline src="/theme.js">`.
+- Client JS lives in `public/theme.js` (sync, in `<head>`) and `public/motion.js` (`defer`, keep it under 2KB), loaded with `<script is:inline src=...>`.
 - `build.inlineStylesheets` is `'never'` in `astro.config.mjs`. Don't change it.
 - Dynamic sizes (the metric bars) use SVG attributes, not inline styles.
 
@@ -31,7 +31,10 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European 
 - Graph-paper body background drawn with hard-stop `linear-gradient` lines (not decorative gradients).
 - Sections are numbered 01–06 (`sections` in `src/data/site.ts` drives the nav and the headings), each with a connector line.
 - Results render as monitoring panels: status dot, reading, before/after bars to scale, axis ticks.
-- Motion: the results bars grow via CSS scroll-driven animation (`.grow` in `global.css`); otherwise only smooth anchor scrolling, button lift/press and hover colour changes. Movement is off under `prefers-reduced-motion`. No JS animation.
+- Motion animates transform and opacity only (no layout properties, no CLS), and all of it is off under `prefers-reduced-motion`. Rules live in the Motion block at the end of `global.css`.
+  - Hero, CSS only on load: frame corners and title-block rows settle in, under 600ms in total. The name (the LCP element) never animates.
+  - Scroll reveals: `motion.js` adds `.motion` to `<html>` and `.is-in` once to each `[data-reveal]` element (sections, results panels). Section connectors and rails draw in; results bars grow once; readings count down from `data-from` to the final text already in the HTML; the "improved" dot pulses once. Without JS nothing is hidden.
+  - Hover: buttons lift and press, project cards shift 1px with an accent edge, `.u` links draw their underline left to right.
 
 ## Layout of the code
 
@@ -39,7 +42,7 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European 
 - `src/data/experience.ts`: jobs and results. Tool names in `points` are wrapped in backticks and rendered by `Rich.astro`. The build fails if results aren't reductions (0 <= after < before).
 - `src/layouts/Base.astro`: `<head>` (meta, Open Graph, Twitter card, JSON-LD, font preloads), header and footer.
 - `src/components/`: one component per section (Hero, About … Contact), plus Header, `Section` (numbered heading), `Icon` (inline SVGs) and `Rich` (backticks to mono).
-- `public/`: `_headers`, `robots.txt`, `sitemap.xml`, `favicon.svg`, `theme.js`, fonts and `cv/Syed-Ali-Hussain-CV.pdf` (linked from the hero).
+- `public/`: `_headers`, `robots.txt`, `sitemap.xml`, `favicon.svg`, `theme.js`, `motion.js`, fonts and `cv/Syed-Ali-Hussain-CV.pdf` (linked from the hero).
 
 ## Development
 

@@ -23,6 +23,7 @@ public/
   cv/               the CV PDF linked from the hero
   fonts/            IBM Plex Sans Condensed 600 and IBM Plex Mono 400/600, Latin subsets (SIL OFL, see OFL.txt)
   theme.js          light/dark toggle, stored in localStorage
+  motion.js         one-shot scroll reveals and results count-down (off with reduced motion)
   robots.txt, sitemap.xml, favicon.svg
 src/
   data/             site.ts (name, links, sections), experience.ts (jobs and results)

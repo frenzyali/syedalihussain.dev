@@ -18,7 +18,7 @@ const profiles = [
 ---
 
 <Section id="contact">
-  <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
+  <a class="email u" href={`mailto:${site.email}`}>{site.email}</a>
 
   <dl class="titleblock links">
     {
@@ -28,7 +28,7 @@ const profiles = [
           <dd>
             <a href={url}>
               <Icon name={name} />
-              <span>{parts(url).map((p, i) => (i ? [<wbr />, `/${p}`] : p))}</span>
+              <span class="u">{parts(url).map((p, i) => (i ? [<wbr />, `/${p}`] : p))}</span>
             </a>
           </dd>
         </div>
@@ -46,9 +46,12 @@ const profiles = [
     font-weight: 600;
     line-height: 1.1;
     letter-spacing: -0.01em;
-    text-decoration-color: var(--accent);
-    text-decoration-thickness: 2px;
     overflow-wrap: anywhere;
+  }
+
+  .email.u::before,
+  .email.u::after {
+    height: 2px;
   }
 
   .email:hover {
@@ -62,6 +65,7 @@ const profiles = [
 
   .links a {
     display: inline-flex;
+    text-decoration: none;
     align-items: center;
     gap: 0.5rem;
     min-height: 1.5rem;

@@ -2,6 +2,10 @@
 import Section from './Section.astro';
 import Rich from './Rich.astro';
 import { aiit, internships, change, share, ticks } from '../data/experience';
+import type { Result } from '../data/experience';
+
+// "~$200" -> prefix "~$", suffix "": what motion.js wraps around the number while counting down.
+const affixes = (r: Result) => r.after.label.split(String(r.after.value));
 ---
 
 <Section id="experience">
@@ -17,7 +21,7 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
       <ul class="tiles dash" role="list">
         {
           aiit.results.map((r) => (
-            <li class="panel">
+            <li class="panel" data-reveal>
               <div class="panel-head">
                 <span class="status">
                   <span class="dot" aria-hidden="true" />
@@ -28,7 +32,13 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
               </div>
               {/* The reading and chart repeat r.text below, so screen readers get the sentence only. */}
               <p class="reading" aria-hidden="true">
-                <span class="now">{r.after.label}</span>
+                <span
+                  class="now"
+                  data-from={r.before.value}
+                  data-to={r.after.value}
+                  data-prefix={affixes(r)[0]}
+                  data-suffix={affixes(r)[1]}
+                >{r.after.label}</span>
                 <span class="was">was {r.before.label}</span>
               </p>
               <div class="chart" aria-hidden="true">
@@ -75,12 +85,15 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
         <li class="entry minor">
           <header class="entry-head">
             <h3>{job.org}</h3>
-            <p class="entry-sub">{job.role}</p>
+            <p class="entry-sub">
+              {job.role}, {job.location}
+            </p>
             <p class="dates">
               <time datetime={job.start.iso}>{job.start.label}</time> –{' '}
               <time datetime={job.end.iso}>{job.end.label}</time>
             </p>
           </header>
+          {job.note && <p class="body note">{job.note}</p>}
           {job.points.map((p) => (
             <p class="body">
               <Rich text={p} />
@@ -93,7 +106,11 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
 </Section>
 
 <style>
-  /* Results as a monitoring dashboard. */
+  .note {
+    color: var(--ink-2);
+    font-size: 0.9375rem;
+  }
+
   .dash {
     margin-top: 2rem;
   }
@@ -134,11 +151,22 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
   }
 
   .dot {
+    position: relative;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: var(--ok);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 22%, transparent);
+  }
+
+  /* The ring for the one-off pulse on reveal (animated in global.css). */
+  .dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--ok);
+    opacity: 0;
   }
 
   .metric {
@@ -155,8 +183,10 @@ import { aiit, internships, change, share, ticks } from '../data/experience';
     font-weight: 600;
   }
 
+  /* .was sits at the right edge, so the count-down changing .now's width moves nothing. */
   .reading {
     display: flex;
+    justify-content: space-between;
     align-items: baseline;
     flex-wrap: wrap;
     gap: 0.25rem 0.75rem;

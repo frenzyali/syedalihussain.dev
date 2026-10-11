@@ -47,7 +47,7 @@ const url = (repo: string) => `${site.github}/${repo}`;
           <h3>
             <a href={url(p.repo)}>
               <Icon name="github" />
-              {p.repo}
+              <span class="u">{p.repo}</span>
             </a>
           </h3>
           <p class:list={['status', p.status.state]}>
@@ -70,7 +70,7 @@ const url = (repo: string) => `${site.github}/${repo}`;
     {
       earlier.map((p) => (
         <li>
-          <a href={url(p.repo)}>{p.repo}</a>
+          <a class="u" href={url(p.repo)}>{p.repo}</a>
           <p>{p.text}</p>
         </li>
       ))
@@ -92,12 +92,30 @@ const url = (repo: string) => `${site.github}/${repo}`;
     flex-direction: column;
     padding: 1.125rem 1.125rem 1.25rem;
     background: var(--surface);
-    transition: background-color 150ms ease;
   }
 
+  /* Hover: the card's edge turns accent and it lifts 1px off a 1px offset shadow. */
   .card:hover,
   .card:focus-within {
+    z-index: 1;
     background: color-mix(in srgb, var(--surface) 92%, var(--accent));
+    box-shadow:
+      0 0 0 1px var(--accent),
+      2px 2px 0 var(--accent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .card {
+      transition:
+        background-color 150ms ease,
+        box-shadow 150ms ease,
+        transform 150ms ease;
+    }
+
+    .card:hover,
+    .card:focus-within {
+      transform: translate(-1px, -1px);
+    }
   }
 
   .card h3 {
@@ -123,7 +141,6 @@ const url = (repo: string) => `${site.github}/${repo}`;
 
   .card:hover h3 a {
     color: var(--accent);
-    text-decoration: underline;
   }
 
   .card h3 a:focus-visible {
@@ -196,6 +213,7 @@ const url = (repo: string) => `${site.github}/${repo}`;
   }
 
   .earlier a {
+    justify-self: start;
     font-family: var(--mono);
     font-size: 0.9375rem;
     font-weight: 600;

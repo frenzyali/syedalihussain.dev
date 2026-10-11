@@ -64,6 +64,8 @@
   --gutter: 1rem;
   --page: 70rem;
   --measure: 40rem;
+
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 /* Dark: a cyanotype blueprint, not an inversion of the light theme. */
@@ -254,62 +256,6 @@ svg {
   }
 }
 
-/* Results bars grow to their width as they scroll into view. CSS only: browsers without
-   scroll-driven animations, and visitors who prefer reduced motion, see the final width. */
-@keyframes grow {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  @supports (animation-timeline: view()) {
-    .grow {
-      transform-origin: left center;
-      animation: grow linear both;
-      animation-timeline: view();
-      animation-range: entry 20% cover 40%;
-    }
-  }
-}
-
-/* Title block: the bordered key/value table from an engineering drawing. */
-.titleblock {
-  display: grid;
-  border: 1px solid var(--ink);
-  background: var(--surface);
-  font-family: var(--mono);
-  font-size: var(--step--1);
-}
-
-.titleblock div {
-  display: grid;
-  grid-template-columns: 7.5rem 1fr;
-}
-
-.titleblock div + div {
-  border-top: 1px solid var(--rule);
-}
-
-.titleblock dt {
-  padding: 0.5rem 0.75rem;
-  border-right: 1px solid var(--rule);
-  color: var(--ink-2);
-}
-
-.titleblock dd {
-  min-width: 0;
-  padding: 0.5rem 0.75rem;
-  font-weight: 600;
-  overflow-wrap: break-word;
-}
-
-@media (max-width: 30rem) {
-  .titleblock div {
-    grid-template-columns: 5.5rem 1fr;
-  }
-}
-
 /* Tiles (results, projects, skills): cells divided by 1px rules. Each component sets its columns. */
 .tiles {
   display: grid;
@@ -320,8 +266,18 @@ svg {
 
 /* Timeline entries (Experience, Education): dated sequences, so they hang off one rail. */
 .rail {
+  position: relative;
   margin-left: 0.3125rem;
-  border-left: 1px solid var(--rule);
+  padding-left: 1px;
+}
+
+/* The rail line is a pseudo-element rather than a border so it can draw in (see Motion). */
+.rail::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 1px;
+  background: var(--rule);
 }
 
 .entry {
@@ -389,5 +345,131 @@ svg {
   .entry-head .dates {
     flex-basis: 100%;
     margin-left: 0;
+  }
+}
+
+/* Links that draw their underline left to right: a faint rule at rest, the link colour on
+   hover or focus. Put .u on the link itself, or on the text span inside a link with an icon. */
+.u {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.u::before,
+.u::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -2px;
+  height: 1px;
+}
+
+.u::before {
+  background: var(--rule);
+}
+
+.u::after {
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+a.u:is(:hover, :focus-visible)::after,
+a:is(:hover, :focus-visible) .u::after,
+.card:hover .u::after {
+  transform: none;
+}
+
+/* Motion. Only transform and opacity animate, so nothing reflows. motion.js adds .motion to
+   <html> (never under reduced motion) and .is-in to each [data-reveal] element the first time
+   it is on screen. Without the script nothing is hidden and every value is final. */
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translate(var(--from, 0, 0));
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .u::after {
+    transition: transform 250ms var(--ease-out);
+  }
+
+  /* Hero, on load and without JS: the frame corners and title-block rows settle in (under
+     600ms in total). The name is the largest paint and never moves. */
+  .hero .corner {
+    animation: settle 350ms var(--ease-out) both;
+  }
+
+  .hero .tl { --from: -6px, -6px; }
+  .hero .tr { --from: 6px, -6px; }
+  .hero .bl { --from: -6px, 6px; }
+  .hero .br { --from: 6px, 6px; }
+
+  .hero .titleblock div {
+    --from: 0, 6px;
+    animation: settle 280ms var(--ease-out) both;
+  }
+
+  .hero .titleblock div:nth-child(1) { animation-delay: 120ms; }
+  .hero .titleblock div:nth-child(2) { animation-delay: 180ms; }
+  .hero .titleblock div:nth-child(3) { animation-delay: 240ms; }
+  .hero .titleblock div:nth-child(4) { animation-delay: 300ms; }
+
+  /* Sections: the heading connector and the timeline rail draw in. */
+  .motion .section > h2::after {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  .motion .section .rail::before {
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+
+  .motion .section.is-in > h2::after {
+    transform: none;
+    transition: transform 900ms var(--ease-out);
+  }
+
+  .motion .section.is-in .rail::before {
+    transform: none;
+    transition: transform 1400ms var(--ease-out) 150ms;
+  }
+
+  /* Results panels: bars grow, the reading counts down (motion.js), the dot pulses once. */
+  .motion .panel .grow {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  .motion .panel [data-from] {
+    opacity: 0;
+  }
+
+  .motion .panel.is-in .grow {
+    transform: none;
+    transition: transform 800ms var(--ease-out) 100ms;
+  }
+
+  .motion .panel.is-in [data-from] {
+    opacity: 1;
+    transition: opacity 150ms linear;
+  }
+
+  .motion .panel.is-in .dot::after {
+    animation: pulse 1400ms ease-out 500ms both;
   }
 }
