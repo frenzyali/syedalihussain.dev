@@ -1,75 +1,130 @@
 ---
 import Section from './Section.astro';
-
-const groups = [
-  { name: 'Cloud', items: ['AWS: EC2, RDS, S3, Lambda, CloudWatch, SNS', 'Azure'] },
-  { name: 'Containers', items: ['Docker', 'Docker Compose', 'Kubernetes', 'Helm'] },
-  { name: 'IaC & config', items: ['Terraform', 'Ansible'] },
-  { name: 'CI/CD', items: ['GitHub Actions, incl. self-hosted runners', 'Jenkins'] },
-  { name: 'Observability', items: ['Prometheus', 'Grafana', 'Loki', 'CloudWatch'] },
-  {
-    name: 'Linux & networking',
-    items: [
-      'Linux (Ubuntu, RHEL family: RHEL, AlmaLinux, Rocky)',
-      'Nginx',
-      'MikroTik',
-      'Hyper-V',
-      'Active Directory',
-    ],
-  },
-  { name: 'Data', items: ['PostgreSQL', 'Redis'] },
-  { name: 'Languages', items: ['Bash', 'Python'] },
-];
+import TechIcon from './TechIcon.astro';
+import Icon from './Icon.astro';
+import { core, groups } from '../data/skills';
 ---
 
 <Section id="skills">
-  <ul class="tiles groups" role="list">
-    {
-      groups.map((g) => (
-        <li class="group">
-          <h3>{g.name}</h3>
-          <ul role="list">
-            {g.items.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </li>
-      ))
-    }
-  </ul>
+  <div class="card skills" data-reveal>
+    <ul class="icons" role="list" aria-label="Main tools">
+      {
+        core.map((s) => (
+          <li>
+            <TechIcon slug={s.icon} text={s.badge} size={32} />
+            <span class="name">{s.name}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <details class="more">
+      <summary>
+        <span class="when-closed">Show all skills</span><span class="when-open">Show fewer</span>
+        <Icon name="chevron" />
+      </summary>
+      <div class="groups">
+        {
+          groups.map((g) => (
+            <div class="group">
+              <h3>{g.name}</h3>
+              <ul class="chips" role="list">
+                {g.items.map((s) => (
+                  <li>
+                    <TechIcon slug={s.icon} text={s.badge} size={14} />
+                    <span>
+                      {s.name}
+                      {s.detail && <span class="detail">: {s.detail}</span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </details>
+  </div>
 </Section>
 
 <style>
-  .groups {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .skills {
+    padding: clamp(1.25rem, 4vw, 2rem);
   }
 
-  @media (min-width: 56rem) {
-    .groups {
+  /* The icon grid: one consistent cell per tool, the name always visible. */
+  .icons {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .icons li {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 0.625rem;
+    min-height: 6.5rem;
+    padding: 0.875rem 0.375rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    text-align: center;
+  }
+
+  .name {
+    font-size: var(--step--1);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  @media (min-width: 40rem) {
+    .icons {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
-  .group {
-    min-width: 0;
-    padding: 1rem clamp(0.75rem, 2vw, 1.125rem) 1.25rem;
-    background: var(--surface);
+  @media (min-width: 64rem) {
+    .icons {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+
+  .groups {
+    display: grid;
+    gap: 1.25rem 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: 48rem) {
+    .groups {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   h3 {
-    padding-bottom: 0.5rem;
-    border-bottom: 1px dashed var(--rule);
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: var(--step--1);
-    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--ink-2);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
-  .group ul {
-    display: grid;
-    gap: 0.25rem;
-    margin-top: 0.75rem;
-    font-family: var(--mono);
-    font-size: 0.875rem;
+  .chips li {
+    padding-left: 0.5rem;
+  }
+
+  .detail {
+    color: var(--ink-2);
+  }
+
+  /* Text badges inside chips shrink to the 14px icon size. */
+  .chips :global(.ti-text) {
+    min-width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    font-size: 0.4375rem;
   }
 </style>

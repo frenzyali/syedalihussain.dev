@@ -3,11 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import { site } from '../data/site';
 import { aiit } from '../data/experience';
-
-const preload = [
-  '/fonts/ibm-plex-mono-latin-400.woff2',
-  '/fonts/ibm-plex-sans-condensed-latin-600.woff2',
-];
+import { diploma } from '../data/education';
 
 interface Props {
   /** Page-specific title; the home page uses "Name | Title". */
@@ -32,7 +28,15 @@ const person = {
     addressCountry: 'PK',
   },
   worksFor: { '@type': 'Organization', name: aiit.org },
-  alumniOf: { '@type': 'EducationalOrganization', name: 'Al Nafi International College' },
+  alumniOf: { '@type': 'EducationalOrganization', name: diploma.school },
+  hasCredential: {
+    '@type': 'EducationalOccupationalCredential',
+    name: diploma.title,
+    credentialCategory: 'Diploma',
+    educationalLevel: diploma.level,
+    dateCreated: diploma.end.iso,
+    recognizedBy: { '@type': 'Organization', name: diploma.issuerName },
+  },
   sameAs: [site.github, site.linkedin],
   knowsAbout: [
     'AWS',
@@ -57,11 +61,11 @@ const person = {
     <meta name="description" content={site.description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={site.url} />}
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f6f8fa" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b2540" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f5f3ee" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap.xml" />
-    {preload.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
+    <link rel="preload" href="/fonts/geist-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="profile" />
     <meta property="og:url" content={site.url} />
@@ -95,7 +99,6 @@ const person = {
   .site-footer {
     padding-block: 3rem 2.5rem;
     color: var(--ink-2);
-    font-family: var(--mono);
     font-size: var(--step--1);
   }
 </style>

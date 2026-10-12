@@ -1,73 +1,68 @@
 ---
-import Section from './Section.astro';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
-
-// Display form of a profile URL ("linkedin.com/in/alihussaindevops"), split on "/" so the
-// template can put a <wbr> before each slash and long URLs wrap there on phones.
-const parts = (url: string) =>
-  url
-    .replace(/^https:\/\/(www\.)?/, '')
-    .replace(/\/$/, '')
-    .split('/');
-
-const profiles = [
-  { name: 'github', url: site.github },
-  { name: 'linkedin', url: site.linkedin },
-] as const;
 ---
 
-<Section id="contact">
-  <a class="email u" href={`mailto:${site.email}`}>{site.email}</a>
-
-  <dl class="titleblock links">
-    {
-      profiles.map(({ name, url }) => (
-        <div>
-          <dt>{name}</dt>
-          <dd>
-            <a href={url}>
-              <Icon name={name} />
-              <span class="u">{parts(url).map((p, i) => (i ? [<wbr />, `/${p}`] : p))}</span>
-            </a>
-          </dd>
-        </div>
-      ))
-    }
-  </dl>
-</Section>
+<section class="wrap contact" id="contact" aria-labelledby="contact-title">
+  <div class="card cta" data-reveal>
+    <h2 id="contact-title">Contact</h2>
+    <p class="line">Open to remote DevOps roles.</p>
+    <a class="email" href={`mailto:${site.email}`}>{site.email}</a>
+    <ul class="actions" role="list">
+      <li><a class="btn primary" href={`mailto:${site.email}`}><Icon name="mail" />Email me</a></li>
+      <li><a class="btn" href={site.linkedin}><Icon name="linkedin" />LinkedIn</a></li>
+      <li><a class="btn" href={site.github}><Icon name="github" />GitHub</a></li>
+      <li><a class="btn" href={site.cv} download><Icon name="download" />CV (PDF)</a></li>
+    </ul>
+  </div>
+</section>
 
 <style>
-  .email {
-    display: inline-block;
-    color: var(--ink);
-    font-family: var(--display);
-    font-size: clamp(1.75rem, 1rem + 4vw, 3.5rem);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    overflow-wrap: anywhere;
+  .contact {
+    padding-top: clamp(2.5rem, 6vw, 4.5rem);
   }
 
-  .email.u::before,
-  .email.u::after {
-    height: 2px;
+  .cta {
+    display: grid;
+    justify-items: center;
+    padding: clamp(2rem, 7vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem);
+    text-align: center;
+  }
+
+  h2 {
+    font-size: clamp(1.625rem, 1.2rem + 1.4vw, 2.25rem);
+  }
+
+  .line {
+    max-width: 32rem;
+    margin-top: 0.75rem;
+    color: var(--ink-2);
+    font-size: var(--step-1);
+  }
+
+  .email {
+    margin-top: 1.5rem;
+    color: var(--ink);
+    font-size: clamp(1.375rem, 0.9rem + 2.4vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    text-decoration-color: var(--line-strong);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+    overflow-wrap: anywhere;
   }
 
   .email:hover {
     color: var(--accent);
+    text-decoration-color: currentColor;
   }
 
-  .links {
-    max-width: 34rem;
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.625rem;
     margin-top: 2rem;
-  }
-
-  .links a {
-    display: inline-flex;
-    text-decoration: none;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 1.5rem;
   }
 </style>

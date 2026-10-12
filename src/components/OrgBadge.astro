@@ -1,0 +1,47 @@
+---
+// An organisation's logo, or a neutral initials badge until the official logo is added at
+// public/img/logos/<logo>.svg. Decorative: the organisation's name is always next to it.
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface Props {
+  initials: string;
+  /** File name without extension in public/img/logos/. */
+  logo?: string;
+}
+
+const { initials, logo } = Astro.props;
+const src = logo && existsSync(join(process.cwd(), 'public/img/logos', `${logo}.svg`)) ? `/img/logos/${logo}.svg` : undefined;
+---
+
+{
+  src ? (
+    <img class="badge" src={src} width="44" height="44" alt="" loading="lazy" decoding="async" />
+  ) : (
+    <span class="badge initials" aria-hidden="true">
+      {initials}
+    </span>
+  )
+}
+
+<style>
+  .badge {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    object-fit: contain;
+  }
+
+  .initials {
+    display: grid;
+    place-items: center;
+    background: var(--surface-2);
+    color: var(--ink-2);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.02em;
+  }
+</style>

@@ -1,4 +1,4 @@
-// Strings in `points` may wrap tool names in backticks; <Rich> sets them in the mono face.
+// Strings in `points` may wrap tool names in backticks; <Rich> sets them in a heavier weight.
 // Other fields are plain text.
 
 interface Reading {
@@ -13,8 +13,6 @@ interface Month {
 
 export interface Result {
   metric: string;
-  /** Axis unit for the chart. */
-  unit: string;
   before: Reading;
   after: Reading;
   text: string;
@@ -27,8 +25,6 @@ interface Job {
   start: Month;
   end?: Month;
   lead?: string;
-  /** One plain-text line under the role, e.g. how the internship came about. */
-  note?: string;
   results?: Result[];
   points: string[];
 }
@@ -42,21 +38,18 @@ export const aiit = {
   results: [
     {
       metric: 'Monthly AWS bill',
-      unit: 'USD',
       before: { value: 425, label: '~$425' },
       after: { value: 200, label: '~$200' },
       text: 'Cut the monthly AWS bill from ~$425 to ~$200 (~53%), including ~$79/month from EC2 and RDS right-sizing.',
     },
     {
       metric: 'Deploy time per service',
-      unit: 'min',
       before: { value: 12, label: '12 min' },
       after: { value: 4, label: '4 min' },
       text: 'Cut per-service deploy time from 12 to 4 minutes with dependency and Docker layer caching.',
     },
     {
       metric: 'Recovery time',
-      unit: 'min',
       before: { value: 85, label: '1 h 25 min' },
       after: { value: 49, label: '49 min' },
       text: 'Cut recovery time from 1 h 25 min to 49 min with real-time replication, warm read replicas and standbys on AWS.',
@@ -69,7 +62,7 @@ export const aiit = {
   ],
 } satisfies Job;
 
-// The panels label every result "improved" and draw after as a share of before.
+// The hero tiles and the result lines present every result as a cut ("−53%").
 for (const r of aiit.results) {
   if (!(r.after.value >= 0 && r.after.value < r.before.value)) {
     throw new Error(`experience.ts: "${r.metric}" needs 0 <= after < before`);
@@ -89,7 +82,6 @@ export const internships = [
     org: 'Al Nafi International College',
     role: 'DevOps Intern',
     location: 'Remote',
-    note: 'Job training programme of my Level 6 diploma.',
     start: { iso: '2024-07', label: 'Jul 2024' },
     end: { iso: '2025-07', label: 'Jul 2025' },
     points: [
@@ -102,20 +94,4 @@ export const internships = [
 /** Percentage drop from before to after, e.g. "−53%". */
 export function change(r: Result): string {
   return `−${Math.round((1 - r.after.value / r.before.value) * 100)}%`;
-}
-
-/** After as a share of before, as an SVG width, e.g. "47.1%". */
-export function share(r: Result): string {
-  return `${((r.after.value / r.before.value) * 100).toFixed(1)}%`;
-}
-
-/** Axis ticks at round steps (1, 2, 3, 5 or 10 × 10^n) from 0 up to the before value. */
-export function ticks(r: Result): { value: number; at: string }[] {
-  const max = r.before.value;
-  const raw = max / 5;
-  const magnitude = 10 ** Math.floor(Math.log10(raw));
-  const step = ([1, 2, 3, 5, 10].find((m) => m * magnitude >= raw) ?? 10) * magnitude;
-  const out = [];
-  for (let v = 0; v <= max; v += step) out.push({ value: v, at: `${(v / max) * 100}%` });
-  return out;
 }

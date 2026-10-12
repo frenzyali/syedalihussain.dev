@@ -1,0 +1,48 @@
+// Brand icons from simple-icons (CC0), picked by slug. Only these are bundled into the build.
+import {
+  siAlmalinux,
+  siAnsible,
+  siDocker,
+  siGithubactions,
+  siGnubash,
+  siGrafana,
+  siHelm,
+  siJenkins,
+  siKubernetes,
+  siLinux,
+  siMikrotik,
+  siNginx,
+  siPostgresql,
+  siPrometheus,
+  siPython,
+  siRedhat,
+  siRedis,
+  siRockylinux,
+  siTerraform,
+  siUbuntu,
+} from 'simple-icons';
+
+export const icons = {
+  almalinux: siAlmalinux,
+  ansible: siAnsible,
+  bash: siGnubash,
+  docker: siDocker,
+  githubactions: siGithubactions,
+  grafana: siGrafana,
+  helm: siHelm,
+  jenkins: siJenkins,
+  kubernetes: siKubernetes,
+  linux: siLinux,
+  mikrotik: siMikrotik,
+  nginx: siNginx,
+  postgresql: siPostgresql,
+  prometheus: siPrometheus,
+  python: siPython,
+  redhat: siRedhat,
+  redis: siRedis,
+  rocky: siRockylinux,
+  terraform: siTerraform,
+  ubuntu: siUbuntu,
+};
+
+export type IconSlug = keyof typeof icons;

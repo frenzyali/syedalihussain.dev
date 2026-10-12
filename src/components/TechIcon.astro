@@ -1,0 +1,59 @@
+---
+// Brand icons from simple-icons (CC0), inlined at build time. Tools simple-icons doesn't carry
+// (AWS, Azure, Loki, Hyper-V, Active Directory, CloudWatch) get a text badge of the same size.
+import { icons, type IconSlug } from '../data/icons';
+
+interface Props {
+  /** A simple-icons slug, or omitted for the text badge. */
+  slug?: IconSlug;
+  /** Badge text when there is no icon, e.g. "AWS". */
+  text?: string;
+  size?: number;
+}
+
+const { slug, text = '', size = 20 } = Astro.props;
+const icon = slug ? icons[slug] : undefined;
+if (slug && !icon) throw new Error(`TechIcon: unknown slug "${slug}"`);
+---
+
+{
+  icon ? (
+    <svg class="ti" width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d={icon.path} />
+    </svg>
+  ) : (
+    <span class:list={['ti', 'ti-text', size > 20 && 'big']} aria-hidden="true">
+      {text}
+    </span>
+  )
+}
+
+<style>
+  .ti {
+    flex: none;
+  }
+
+  /* Same box as the 20px icons; the 32px version is used in the skills grid. */
+  .ti-text {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    padding-inline: 2px;
+    border-radius: 5px;
+    background: var(--ink);
+    color: var(--surface);
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  .ti-text.big {
+    min-width: 32px;
+    height: 32px;
+    padding-inline: 4px;
+    border-radius: 8px;
+    font-size: 0.6875rem;
+  }
+</style>

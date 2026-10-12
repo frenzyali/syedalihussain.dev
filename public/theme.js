@@ -37,10 +37,13 @@
     var button = document.querySelector('[data-theme-toggle]');
     if (!button) return;
 
+    // The button holds an icon; its text label lives in [data-theme-label] (visually hidden).
+    var text = button.querySelector('[data-theme-label]') || button;
+
     function label() {
       var next = opposite();
-      button.textContent = next === 'dark' ? 'Dark theme' : 'Light theme';
-      button.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+      text.textContent = 'Switch to ' + next + ' theme';
+      button.title = 'Switch to ' + next + ' theme';
     }
 
     button.addEventListener('click', function () {
