@@ -1,6 +1,6 @@
 ---
 interface Props {
-  name: 'github' | 'linkedin' | 'mail' | 'download' | 'pin' | 'arrow' | 'chevron';
+  name: 'github' | 'linkedin' | 'mail' | 'download' | 'pin' | 'arrow' | 'chevron' | 'pause' | 'play' | 'close';
 }
 
 const { name } = Astro.props;
@@ -63,6 +63,22 @@ const { name } = Astro.props;
   {
     name === 'chevron' && (
       <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="m4 6 4 4 4-4" />
+    )
+  }
+  {
+    name === 'pause' && (
+      <g fill="currentColor">
+        <rect x="3.5" y="2.5" width="3" height="11" rx="1" />
+        <rect x="9.5" y="2.5" width="3" height="11" rx="1" />
+      </g>
+    )
+  }
+  {
+    name === 'play' && <path fill="currentColor" d="M4.5 2.6v10.8a.6.6 0 0 0 .9.5l8.6-5.4a.6.6 0 0 0 0-1L5.4 2.1a.6.6 0 0 0-.9.5z" />
+  }
+  {
+    name === 'close' && (
+      <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M3.5 3.5l9 9M12.5 3.5l-9 9" />
     )
   }
 </svg>

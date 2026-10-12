@@ -1,8 +1,9 @@
-// Loaded synchronously in <head> so a saved theme applies before first paint.
+// Loaded synchronously in <head>, so a saved theme applies before first paint. Dark is the CSS
+// default for everyone (the OS preference is ignored); light only applies when chosen and saved.
 (function () {
   var KEY = 'theme';
   var root = document.documentElement;
-  var system = window.matchMedia('(prefers-color-scheme: dark)');
+  var COLORS = { dark: '#0a0a0b', light: '#f5f3ee' };
 
   function read() {
     try {
@@ -21,40 +22,37 @@
   }
 
   function current() {
-    var set = root.getAttribute('data-theme');
-    if (set) return set;
-    return system.matches ? 'dark' : 'light';
+    return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
   }
 
-  function opposite() {
-    return current() === 'dark' ? 'light' : 'dark';
+  function apply(theme) {
+    root.setAttribute('data-theme', theme);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', COLORS[theme]);
   }
 
-  var saved = read();
-  if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  apply(read() === 'light' ? 'light' : 'dark');
 
   document.addEventListener('DOMContentLoaded', function () {
+    apply(current());
     var button = document.querySelector('[data-theme-toggle]');
     if (!button) return;
 
-    // The button holds an icon; its text label lives in [data-theme-label] (visually hidden).
-    var text = button.querySelector('[data-theme-label]') || button;
-
+    // The icon shows the theme the button switches to (CSS swaps sun and moon).
     function label() {
-      var next = opposite();
-      text.textContent = 'Switch to ' + next + ' theme';
+      var next = current() === 'dark' ? 'light' : 'dark';
+      button.setAttribute('aria-label', 'Switch to ' + next + ' theme');
       button.title = 'Switch to ' + next + ' theme';
     }
 
     button.addEventListener('click', function () {
-      var next = opposite();
-      root.setAttribute('data-theme', next);
+      var next = current() === 'dark' ? 'light' : 'dark';
+      apply(next);
       write(next);
       label();
     });
 
     label();
     button.hidden = false;
-    if (system.addEventListener) system.addEventListener('change', label);
   });
 })();

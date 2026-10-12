@@ -11,7 +11,7 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: hiring ma
 - No filler copy. Every sentence states a concrete fact, number or tool. Never invent metrics, employers, dates or links; ask the owner if a fact is missing. Project descriptions only state what the repo README shows.
 - Lighthouse 100 in all four categories, mobile and desktop. No layout shift.
 - Fonts: one self-hosted variable face, Geist (Latin subset, weights 100–900, ~29KB) in `public/fonts/`, preloaded with `font-display: optional`. No mono face; tool names in sentences are set slightly heavier (`.tool`). Keep fonts under 60KB.
-- Light and dark mode follow `prefers-color-scheme`, with a manual toggle stored in localStorage. Every storage access is wrapped in try/catch.
+- Dark is the default for every first-time visitor (the OS preference is ignored): `:root` holds the dark tokens and `[data-theme='light']` the light ones, so there is no flash even without JS. The toggle saves the choice in localStorage and `theme.js` applies it before first paint and keeps `<meta name="theme-color">` in sync. Every storage access is wrapped in try/catch.
 - Responsive down to 360px. Semantic HTML, keyboard navigable, visible focus states, alt text.
 - No analytics, cookies or trackers.
 - Conventional commit messages. No `Co-Authored-By` or any Claude/AI attribution in commits, code comments, README or site footer.
@@ -21,23 +21,24 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: hiring ma
 `public/_headers` sets a CSP that only allows same-origin scripts and styles. Because of that:
 
 - No inline `<script>` (except `type="application/ld+json"`), no `style="..."` attributes, no `define:vars`.
-- Client JS lives in `public/theme.js` (sync, in `<head>`), `public/motion.js` (`defer`, keep it under 2KB) and `public/carousel.js` (`defer`, keep it under 1.5KB), loaded with `<script is:inline src=...>`.
+- Client JS lives in `public/theme.js` (sync, in `<head>`), `public/motion.js` (`defer`, keep it under 2KB), `public/carousel.js` (`defer`, under 2KB) and `public/bg.js` (`defer`, under 3KB), loaded with `<script is:inline src=...>`.
 - `build.inlineStylesheets` is `'never'` in `astro.config.mjs`. Don't change it.
 - Dynamic sizes use SVG attributes or classes, not inline styles. `astro:assets` `<Picture>` is fine (it writes no inline style unless `layout` is set; don't set it).
 
 ## Design system: bento
 
-- A bento grid of rounded cards (`.card`: 1px `--line` border, `--radius` 18px, `--surface` fill) on a warm off-white page (light) or a near-black page (dark). Both themes are designed, not inverted; tokens live in `global.css`. No background patterns, corner marks or section numbers.
+- A bento grid of rounded cards (`.card`: 1px `--line` border, `--radius` 18px, `--surface` fill) on a warm off-white page (light) or a near-black page (dark). Both themes are designed, not inverted; tokens live in `global.css`. No corner marks or section numbers. Behind everything sits one fixed `.bg` layer (z-index -1): a faint 64px CSS grid (`--grid-line`) and a canvas where `bg.js` moves a few accent "packets" along the grid lines (`--packet-alpha`; 11 on desktop, 5 on phones; 1× canvas, only last frame's dots cleared, 30fps cap, paused in hidden tabs, started after load). Under reduced motion only the static grid shows. Cards keep solid backgrounds, so text contrast is unchanged.
 - Hero: one full-width intro tile (round 96/72px headshot avatar left of or above the name, status pill, name, role, summary, focus line, CV + Contact, then location and GitHub/LinkedIn/email), a wide "Currently" tile, and three result tiles. No avatar if there is no headshot; never a placeholder image.
-- Sections (`sections` in `src/data/site.ts` drives the headings; `nav: true` puts one in the sticky top bar): About, Experience (one card with a vertical timeline), What colleagues say (recommendations carousel), Projects (card grid; the whole card links to the repo), Education & Certifications (diploma card with the 88% stat, HSSC row, certification cards), Skills (icon grid, full grouped list behind a toggle), Contact (closing tile).
-- Top bar: the name as plain semibold text (links to the top), the `nav: true` links inline from 52rem, below that the same links in a `<details>` "Menu", and the theme toggle.
-- Recommendations (`src/data/recommendations.ts`) are verbatim LinkedIn recommendations: never edit the wording, only typos the owner approves. Initials avatars, never LinkedIn photos. The carousel is a CSS scroll-snap track (works without JS); `carousel.js` adds prev/next, dots and Left/Right keys. No autoplay.
+- Sections (`sections` in `src/data/site.ts` drives the headings; `nav: true` puts one in the sticky top bar): About, Experience (one card with a vertical timeline), What colleagues say (recommendations strip), Projects (card grid; the whole card links to the repo), Education & Certifications (diploma card with the 88% stat, HSSC row, certification cards), Skills (icon grid, full grouped list behind a toggle), Contact (closing tile).
+- Top bar: the name as plain semibold text (links to the top), the `nav: true` links inline from 52rem, below that the same links in a `<details>` "Menu", and the theme toggle (a sun in dark mode, a moon in light mode: the icon shows the theme it switches to, with a short cross-fade).
+- Recommendations (`src/data/recommendations.ts`) are verbatim LinkedIn recommendations: never edit the wording, only typos the owner approves. Initials avatars, never LinkedIn photos. They run as a slow CSS marquee (50s loop): the cards are rendered twice and the track moves by half; the copy is `aria-hidden` with its buttons out of the tab order. It pauses on hover, while a card has focus, and with the Pause button (`aria-pressed`, required by WCAG 2.2.2). Cards clamp to four lines; the whole card is a button that opens the full text in a `<dialog>` (focus returns to the card). Under reduced motion there is no loop: one set of cards scrolls sideways with prev/next. `carousel.js` wires the Pause button, the dialog and prev/next.
 - "Show more" toggles are `<details class="more">` with `.when-closed` / `.when-open` labels. No JS.
 - Logos: only official files the owner provides. Originals live in `assets-src/logos/` (not deployed); `python3 scripts/logos.py` (needs Pillow) trims them, removes their flat background and writes WebPs onto white in `public/img/logos/<name>.webp`: 88×88 for square logos, 112px high and up to 2.73:1 for wordmarks (`WIDE`: Al Nafi, EduQual) so their lettering stays at least 14px tall. Badges are 44px high (56px on the diploma card); wide ones keep their shape and, on phones, sit above the title. `OrgBadge` shows the logo on a white tile (`--logo-tile`, white in both themes) with the organisation name as alt text, or neutral initials if there is no file (BIEK, AWS, Linux Foundation for now). The headshot goes in `src/assets/img/ali.{jpg,webp}` (not `public/`, so `astro:assets` can make AVIF/WebP); until then the intro shows no avatar. Never use stock or generated images.
 - Pills (`.pill`) carry status and dates; chips (`.chips`) carry tool names. Uppercase `.eyebrow` labels name a tile's value.
 - Motion animates transform and opacity only (no layout properties, no CLS), and all of it is off under `prefers-reduced-motion`. Rules live in the Motion block at the end of `global.css`.
   - Scroll reveals: `motion.js` adds `.motion` to `<html>` and `.is-in` once to each `[data-reveal]` element; tiles fade and rise 14px, staggered by `data-step`. `[data-count]` numbers count up from 0 to the final text already in the HTML. Without JS nothing is hidden. The intro tile (LCP) never animates.
   - Hover: `.lift` cards rise 3px onto a soft shadow; buttons rise 1px and press.
+  - Continuous: the recommendations marquee and the background packets (see above), both off under reduced motion.
 
 ## Layout of the code
 
@@ -48,7 +49,7 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: hiring ma
 - `src/components/`: one component per section (Hero, About … Contact), plus Header (sticky top bar, `<details>` menu on phones), `Section` (heading), `Icon` (UI SVGs), `TechIcon` (simple-icons or text badge), `OrgBadge` (logo or initials) and `Rich` (backticks to `.tool`).
 - `src/pages/`: `index.astro` (the single page), `404.astro` (served by Workers for unknown paths; `noindex`, no `og:image`) and `og.png.ts`, which draws the 1200×630 link preview at build time with sharp (Astro's own image dependency; no new package). Its text comes from the Geist TTFs in `assets-src/fonts/` through Pango, its colours from the light-theme tokens. Keep the headshot and name inside the centre 630×630 (WhatsApp's square crop) and all text inside 60px of the edges. `/og.png` is cached for a day in `_headers`, not immutable.
 - `wrangler.jsonc`: deploys `dist/` as Cloudflare Workers static assets. Wrangler is run with `npx`, not installed. The www → apex redirect is a Cloudflare Redirect Rule, because `_redirects` can't match hostnames.
-- `public/`: `_headers`, `robots.txt`, `sitemap.xml`, `favicon.svg`, `theme.js`, `motion.js`, `carousel.js`, fonts, `img/logos/` (generated, see Logos) and `cv/Syed-Ali-Hussain-CV.pdf` (linked from the hero and Contact).
+- `public/`: `_headers`, `robots.txt`, `sitemap.xml`, `favicon.svg`, `theme.js`, `motion.js`, `carousel.js`, `bg.js`, fonts, `img/logos/` (generated, see Logos) and `cv/Syed-Ali-Hussain-CV.pdf` (linked from the hero and Contact).
 
 ## Development
 

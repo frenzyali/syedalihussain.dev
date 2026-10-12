@@ -1,11 +1,14 @@
 // Screenshots every section at 360px and 1280px, in light and dark, for a visual check before
 // pushing. No dependencies: it drives a Chrome/Chromium binary over the DevTools protocol.
+// The theme is chosen the way a visitor would save it (localStorage), since the site ignores the
+// OS preference.
 //
 //   npm run build && npx astro preview --port 4322
 //   CHROME=/path/to/chrome node scripts/screenshots.mjs http://localhost:4322 shots
 //
 // Writes <outdir>/<section>-<width>-<theme>.png and prints, per page, whether it scrolls
-// sideways and its layout shift. Motion is reduced, so bars and readings are in their final state.
+// sideways and its layout shift. Motion is reduced, so reveals, counters, the recommendations
+// strip and the background are in their static state.
 import { spawn } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
 
@@ -70,7 +73,7 @@ for (const width of [360, 1280]) {
       { name: 'prefers-reduced-motion', value: 'reduce' },
     ] }, sessionId);
     await send('Page.addScriptToEvaluateOnNewDocument', { source: `
-      try { localStorage.removeItem('theme'); } catch (e) {}
+      try { localStorage.setItem('theme', '${theme}'); } catch (e) {}
       window.__cls = 0;
       new PerformanceObserver((l) => { for (const e of l.getEntries()) if (!e.hadRecentInput) window.__cls += e.value; })
         .observe({ type: 'layout-shift', buffered: true });

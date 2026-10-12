@@ -1,32 +1,43 @@
-// Recommendations carousel: buttons, dots and arrow keys over a CSS scroll-snap track.
+// Recommendations strip: the Pause button, the full-text dialog, and prev/next for the
+// reduced-motion row. The CSS loop runs (and pauses on hover and focus) without this script.
 (function () {
-  var c = document.querySelector('[data-carousel]');
-  if (!c) return;
-  var t = c.querySelector('.track'), s = t.children, prev = c.querySelector('[data-prev]'),
-    next = c.querySelector('[data-next]'), dots = c.querySelectorAll('[data-dot]'),
-    rm = matchMedia('(prefers-reduced-motion: reduce)'), raf;
-  function w() { return s[1].offsetLeft - s[0].offsetLeft; }
-  function n() { return Math.round((t.scrollWidth - t.clientWidth) / w()) + 1; }
-  function at() { return Math.round(t.scrollLeft / w()); }
-  function go(i) {
-    t.scrollTo({ left: Math.max(0, Math.min(n() - 1, i)) * w(), behavior: rm.matches ? 'auto' : 'smooth' });
-  }
-  function upd() {
-    var k = n(), i = at();
-    dots.forEach(function (d, j) { d.hidden = j >= k; d.setAttribute('aria-current', j === i); });
-    prev.disabled = i < 1;
-    next.disabled = i >= k - 1;
-  }
-  function later() { cancelAnimationFrame(raf); raf = requestAnimationFrame(upd); }
-  prev.onclick = function () { go(at() - 1); };
-  next.onclick = function () { go(at() + 1); };
-  dots.forEach(function (d, j) { d.onclick = function () { go(j); }; });
-  c.onkeydown = function (e) {
-    var d = { ArrowLeft: -1, ArrowRight: 1 }[e.key];
-    if (d) { e.preventDefault(); go(at() + d); }
+  var m = document.querySelector('[data-marquee]');
+  if (!m) return;
+  var vp = m.querySelector('.viewport'), dlg = m.querySelector('dialog'),
+    body = dlg.querySelector('[data-body]'), pause = m.querySelector('[data-pause]'), opener;
+
+  pause.onclick = function () {
+    var on = pause.getAttribute('aria-pressed') !== 'true';
+    pause.setAttribute('aria-pressed', on);
+    m.classList.toggle('is-paused', on);
   };
-  t.addEventListener('scroll', later, { passive: true });
-  addEventListener('resize', later);
-  upd();
-  c.classList.add('carousel-ready');
+
+  m.querySelectorAll('[data-dir]').forEach(function (b) {
+    b.onclick = function () {
+      var li = vp.querySelector('li');
+      vp.scrollBy({ left: b.dataset.dir * (li.offsetWidth + parseFloat(getComputedStyle(li).marginRight)) });
+    };
+  });
+
+  // The dialog shows a copy of the card's quote, full text and author.
+  m.querySelectorAll('[data-open]').forEach(function (b) {
+    b.onclick = function () {
+      var card = b.closest('li');
+      body.replaceChildren();
+      ['.mark', '.pull', '.text', '.who'].forEach(function (s) {
+        body.appendChild(card.querySelector(s).cloneNode(true));
+      });
+      body.querySelector('.name').id = 'rec-dialog-name';
+      opener = b;
+      dlg.showModal();
+    };
+  });
+  dlg.querySelector('[data-close]').onclick = function () { dlg.close(); };
+  dlg.onclick = function (e) {
+    var r = dlg.getBoundingClientRect();
+    if (e.target === dlg && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom)) dlg.close();
+  };
+  dlg.onclose = function () { if (opener) opener.focus(); };
+
+  m.classList.add('marquee-ready');
 })();

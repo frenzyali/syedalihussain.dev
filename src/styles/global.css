@@ -9,24 +9,28 @@
 }
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* Light: warm off-white paper, white cards. */
-  --bg: #f5f3ee;
-  --surface: #fffefb;
-  --surface-2: #efece5;
-  --ink: #1b1a17;
-  --ink-2: #5e5a52;
-  --line: #e3dfd5;
-  --line-strong: #cfc9bc;
-  --accent: #1f5bd1;
-  --accent-ink: #ffffff;
-  --accent-soft: #e6edfb;
+  /* Dark is the default for everyone (OS preference is ignored); theme.js applies a saved choice.
+     Near-black, not an inversion of the light theme. */
+  --bg: #0a0a0b;
+  --surface: #141416;
+  --surface-2: #1d1d20;
+  --ink: #ecebe7;
+  --ink-2: #a2a19b;
+  --line: #26262a;
+  --line-strong: #3a3a40;
+  --accent: #84a9ff;
+  --accent-ink: #0a0a0b;
+  --accent-soft: #1a2233;
   /* Logo badges sit on white in both themes (their files are flattened onto white). */
   --logo-tile: #ffffff;
-  --ok: #17794a;
-  --pending: #8a5a00;
-  --shadow: 0 10px 28px -14px rgb(40 32 16 / 0.22);
+  --ok: #5cd29b;
+  --pending: #f0c36a;
+  --shadow: 0 12px 30px -14px rgb(0 0 0 / 0.7);
+  /* Background layer (bg.js): grid lines and the packets' opacity. */
+  --grid-line: rgb(255 255 255 / 0.045);
+  --packet-alpha: 0.4;
 
   --sans: 'Geist', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
@@ -45,42 +49,24 @@
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-/* Dark: near-black, not an inversion of the light theme. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    color-scheme: dark;
-    --bg: #0a0a0b;
-    --surface: #141416;
-    --surface-2: #1d1d20;
-    --ink: #ecebe7;
-    --ink-2: #a2a19b;
-    --line: #26262a;
-    --line-strong: #3a3a40;
-    --accent: #84a9ff;
-    --accent-ink: #0a0a0b;
-    --accent-soft: #1a2233;
-    --ok: #5cd29b;
-    --pending: #f0c36a;
-    --shadow: 0 12px 30px -14px rgb(0 0 0 / 0.7);
-  }
-}
-
-/* The same dark tokens, forced by the toggle in theme.js. Keep both dark blocks in sync. */
-:root[data-theme='dark'] {
-  color-scheme: dark;
-  --bg: #0a0a0b;
-  --surface: #141416;
-  --surface-2: #1d1d20;
-  --ink: #ecebe7;
-  --ink-2: #a2a19b;
-  --line: #26262a;
-  --line-strong: #3a3a40;
-  --accent: #84a9ff;
-  --accent-ink: #0a0a0b;
-  --accent-soft: #1a2233;
-  --ok: #5cd29b;
-  --pending: #f0c36a;
-  --shadow: 0 12px 30px -14px rgb(0 0 0 / 0.7);
+/* Light: warm off-white paper, white cards. Set by the toggle (theme.js). */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f5f3ee;
+  --surface: #fffefb;
+  --surface-2: #efece5;
+  --ink: #1b1a17;
+  --ink-2: #5e5a52;
+  --line: #e3dfd5;
+  --line-strong: #cfc9bc;
+  --accent: #1f5bd1;
+  --accent-ink: #ffffff;
+  --accent-soft: #e6edfb;
+  --ok: #17794a;
+  --pending: #8a5a00;
+  --shadow: 0 10px 28px -14px rgb(40 32 16 / 0.22);
+  --grid-line: rgb(27 26 23 / 0.05);
+  --packet-alpha: 0.3;
 }
 
 @media (min-width: 40rem) {
@@ -186,6 +172,26 @@ img {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Background layer behind everything (z-index -1 sits above the body colour, below content):
+   a faint 64px grid drawn with hard-stop gradients, and the canvas bg.js animates. Cards keep
+   their solid backgrounds, so text contrast is unchanged. */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.bg canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .skip-link {
