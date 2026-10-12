@@ -2,7 +2,9 @@
 
 export const diploma = {
   title: 'Diploma in Artificial Intelligence Operations',
-  level: 'EduQual Level 6',
+  level: "EduQual, UK-accredited RQF Level 6 (same level as an Honours Bachelor's degree)",
+  /** Short form for the JSON-LD credential. */
+  rqf: 'RQF Level 6',
   issuer: 'EduQual (UK regulated awarding organisation)',
   issuerName: 'EduQual',
   school: 'Al Nafi International College',

@@ -89,7 +89,7 @@ export const internships = [
     org: 'Al Nafi International College',
     role: 'DevOps Intern',
     location: 'Remote',
-    note: 'Job training programme of the EduQual Level 6 diploma.',
+    note: 'Job training programme of the RQF Level 6 Diploma',
     start: { iso: '2024-07', label: 'Jul 2024' },
     end: { iso: '2025-07', label: 'Jul 2025' },
     points: [
