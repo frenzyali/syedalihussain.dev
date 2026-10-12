@@ -19,6 +19,7 @@ npm run preview  # serves dist/ locally
 
 ```text
 assets-src/logos/   official logo files (not deployed); run `python3 scripts/logos.py` after changing them
+assets-src/fonts/   Geist SemiBold/Medium/Regular TTFs (OFL), used only to draw og.png at build time
 public/
   _headers          security and cache headers, applied by Cloudflare
   cv/               the CV PDF linked from the hero
@@ -35,7 +36,7 @@ src/
                     education.ts (diploma, HSSC, certifications), skills.ts, icons.ts (simple-icons picks)
   layouts/Base.astro
   components/       one component per section, plus Header, Section, Icon, TechIcon, OrgBadge, Rich
-  pages/            index.astro (the single page) and 404.astro
+  pages/            index.astro (the single page), 404.astro, og.png.ts (the 1200×630 link preview, drawn with sharp)
   styles/global.css design tokens and base styles
 ```
 
@@ -72,10 +73,6 @@ To check a build locally with the production headers and 404 handling: `npm run 
 
 1. DNS: add a proxied record for `www` (for example `AAAA www 100::`, proxied).
 2. **Rules → Redirect Rules → Create rule** from the "Redirect from WWW to root" template, or a custom rule: hostname equals `www.syedalihussain.dev`, dynamic redirect to `concat("https://syedalihussain.dev", http.request.uri.path)`, status 301, preserve query string.
-
-## TODO
-
-- Add a 1200×630 Open Graph image, then add `og:image` and switch the Twitter card to `summary_large_image`.
 
 ## Licence
 
