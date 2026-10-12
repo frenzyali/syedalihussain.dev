@@ -1,5 +1,5 @@
 // The link-preview image (/og.png, 1200×630), drawn at build time with sharp, which Astro already
-// uses for images. Text is set by Pango from the Geist TTFs in assets-src/fonts/, so it matches the
+// uses for images. It uses the real headshot from assets-src/img/, not the site's avatar. Text is set by Pango from the Geist TTFs in assets-src/fonts/, so it matches the
 // site. The headshot and the name sit inside the centre 630×630, which WhatsApp sometimes crops to;
 // everything else stays inside a 60px margin.
 import type { APIRoute } from 'astro';
@@ -45,9 +45,10 @@ async function line(text: string, font: keyof typeof fonts, size: number, color:
   return { input: data, width: info.width, height: info.height };
 }
 
-/** The headshot as a circle with a ring, cropped like the hero avatar (1.2× from 50% 28%). */
+/** The real headshot (assets-src/img/ali-headshot.jpg, not the site's avatar) as a circle with a
+    ring, cropped 1.2× from 50% 28% so the face fills most of it. */
 async function avatar(d: number, ring: number) {
-  const src = join(root, 'src/assets/img/ali.jpg');
+  const src = join(root, 'assets-src/img/ali-headshot.jpg');
   const meta = await sharp(src).metadata();
   const side = Math.round(meta.width! / 1.2);
   const left = Math.round(meta.width! * 0.5 * (1 - 1 / 1.2));

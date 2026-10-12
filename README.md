@@ -20,6 +20,7 @@ npm run preview  # serves dist/ locally
 ```text
 assets-src/logos/   official logo files (not deployed); run `python3 scripts/logos.py` after changing them
 assets-src/fonts/   Geist SemiBold/Medium/Regular TTFs (OFL), used only to draw og.png at build time
+assets-src/img/     ali-headshot.jpg, the real photo used only in og.png (not deployed)
 public/
   _headers          security and cache headers, applied by Cloudflare
   cv/               the CV PDF linked from the hero
@@ -31,7 +32,7 @@ public/
   bg.js             background packets moving along the CSS grid (off with reduced motion)
   robots.txt, sitemap.xml, favicon.svg
 src/
-  assets/img/       the headshot, ali.jpg or .webp (optional; optimised to AVIF/WebP at build time)
+  assets/img/       the hero avatar, ali.jpg (optimised to AVIF/WebP at build time)
   data/             site.ts (name, links, sections), experience.ts (jobs and results), projects.ts,
                     recommendations.ts (verbatim LinkedIn recommendations),
                     education.ts (diploma, HSSC, certifications), skills.ts, icons.ts (simple-icons picks)

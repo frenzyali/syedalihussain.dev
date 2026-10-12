@@ -7,9 +7,9 @@ import { site } from '../data/site';
 import { aiit, change } from '../data/experience';
 import Link from './Link.astro';
 
-// The headshot at src/assets/img/ali.{jpg,jpeg,png,webp}, shown as a round avatar beside the
-// name. astro:assets only optimises images imported from src/, so it can't live in public/.
-// Without one the intro simply has no avatar.
+// The avatar at src/assets/img/ali.{jpg,jpeg,png,webp}, shown in a circle beside the name.
+// astro:assets only optimises images imported from src/, so it can't live in public/. Without one
+// the intro simply has no avatar. (The link preview uses the real headshot in assets-src/img/.)
 const photos = import.meta.glob<ImageMetadata>('/src/assets/img/ali.{jpg,jpeg,png,webp}', {
   eager: true,
   import: 'default',
@@ -32,14 +32,14 @@ const profiles = [
       {
         photo && (
           <div class="avatar">
-            {/* The image is drawn 1.2× inside the circle so the face fills about 70% of it;
-                sizes asks for that larger box (96px or 72px × 1.2), 2× candidates included. */}
+            {/* The source is already a circle on black, so it is drawn zoomed to a circle inside
+                it, centred on the face (see .avatar img); sizes asks for that larger box. */}
             <Picture
               src={photo}
               formats={['avif', 'webp']}
               widths={[96, 144, 240]}
               sizes="(min-width: 40rem) 116px, 87px"
-              alt={site.name}
+              alt={`Avatar of ${site.name}`}
               loading="eager"
             />
           </div>
@@ -142,12 +142,16 @@ const profiles = [
     background: var(--surface-2);
   }
 
+  /* The 640×646 source is a circle (centre 319,323, radius 319) on black. This shows a circle of
+     radius 282 centred on the face (345,315), which stays 8px inside the source circle so none of
+     the black surround or its edge shows: scale 640/564, origin from those points. Re-measure if
+     the image changes. */
   .avatar :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scale(1.2);
-    transform-origin: 50% 28%;
+    transform: scale(1.135);
+    transform-origin: 82.9% 39.5%;
   }
 
   .head {
