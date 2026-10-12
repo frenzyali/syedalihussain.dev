@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import { site } from '../data/site';
 import { aiit } from '../data/experience';
 import { diploma } from '../data/education';
+import Link from '../components/Link.astro';
 
 interface Props {
   /** Page-specific title; the home page uses "Name | Title". */
@@ -102,7 +103,7 @@ const person = {
   <body>
     {/* Fixed background: a faint CSS grid; bg.js draws moving packets on the canvas. */}
     <div class="bg" aria-hidden="true"><canvas></canvas></div>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <Link class="skip-link" href="#main">Skip to content</Link>
     <Header />
     <main id="main">
       <slot />

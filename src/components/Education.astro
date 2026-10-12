@@ -3,6 +3,7 @@ import Section from './Section.astro';
 import OrgBadge from './OrgBadge.astro';
 import Icon from './Icon.astro';
 import { diploma, school, certifications } from '../data/education';
+import Link from './Link.astro';
 ---
 
 <Section id="education">
@@ -77,9 +78,9 @@ import { diploma, school, certifications } from '../data/education';
             <p class="sub">{c.issuer}</p>
             <div class="cert-foot">
               {c.url ? (
-                <a class="verify" href={c.url}>
+                <Link class="verify" href={c.url}>
                   Verify <Icon name="arrow" />
-                </a>
+                </Link>
               ) : (
                 <p class="pill pending">
                   <span class="dot" aria-hidden="true" />

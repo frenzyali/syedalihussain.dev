@@ -5,6 +5,7 @@ import Icon from './Icon.astro';
 import OrgBadge from './OrgBadge.astro';
 import { site } from '../data/site';
 import { aiit, change } from '../data/experience';
+import Link from './Link.astro';
 
 // The headshot at src/assets/img/ali.{jpg,jpeg,png,webp}, shown as a round avatar beside the
 // name. astro:assets only optimises images imported from src/, so it can't live in public/.
@@ -53,8 +54,8 @@ const profiles = [
         <p class="summary">{site.summary}</p>
         <p class="focus">{site.focus}</p>
         <ul class="actions" role="list">
-          <li><a class="btn primary" href={site.cv} download><Icon name="download" />Download CV</a></li>
-          <li><a class="btn" href="#contact"><Icon name="mail" />Contact</a></li>
+          <li><Link class="btn primary" href={site.cv}><Icon name="download" />Download CV</Link></li>
+          <li><Link class="btn" href="#contact"><Icon name="mail" />Contact</Link></li>
         </ul>
       </div>
       <div class="aside">
@@ -63,9 +64,9 @@ const profiles = [
           {
             profiles.map((p) => (
               <li>
-                <a href={p.url} aria-label={p.label}>
+                <Link href={p.url} aria-label={p.label}>
                   <Icon name={p.name} />
-                </a>
+                </Link>
               </li>
             ))
           }

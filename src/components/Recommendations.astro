@@ -2,6 +2,7 @@
 import Section from './Section.astro';
 import Icon from './Icon.astro';
 import { recommendations, recommendationsUrl } from '../data/recommendations';
+import Link from './Link.astro';
 
 const initials = (name: string) =>
   name
@@ -72,7 +73,7 @@ const sets = [false, true];
           <Icon name="chevron" />
         </button>
       </div>
-      <a class="more-link" href={recommendationsUrl}>Read on LinkedIn <span aria-hidden="true">→</span></a>
+      <Link class="more-link" href={recommendationsUrl}>Read on LinkedIn <span aria-hidden="true">→</span></Link>
     </div>
 
     <dialog class="rec-dialog" aria-labelledby="rec-dialog-name">

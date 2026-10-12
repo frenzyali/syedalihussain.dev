@@ -1,0 +1,21 @@
+---
+// Every link on the site goes through this. Links to other domains and PDFs open in a new tab
+// (target="_blank" rel="noopener noreferrer") and say so to screen readers: " (opens in new tab)"
+// is added to the aria-label if there is one, or as visually hidden text. In-page anchors,
+// same-site pages and mailto: links render as plain links. Attributes the parent passes,
+// including its scoped-style attribute, are spread onto the <a>.
+import type { HTMLAttributes } from 'astro/types';
+import { site } from '../data/site';
+
+type Props = HTMLAttributes<'a'> & { href: string };
+
+const { href, 'aria-label': label, ...rest } = Astro.props;
+
+const NOTE = ' (opens in new tab)';
+const otherSite = /^https?:\/\//.test(href) && new URL(href).origin !== new URL(site.url).origin;
+const pdf = /\.pdf([?#]|$)/i.test(href);
+const newTab = otherSite || pdf;
+const attrs = newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+
+<a href={href} {...rest} {...attrs} aria-label={label && newTab ? `${label}${NOTE}` : label}><slot />{newTab && !label && <span class="sr-only">{NOTE}</span>}</a>

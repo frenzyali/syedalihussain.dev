@@ -3,6 +3,7 @@ import Section from './Section.astro';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
 import { featured, earlier } from '../data/projects';
+import Link from './Link.astro';
 
 const url = (repo: string) => `${site.github}/${repo}`;
 ---
@@ -15,7 +16,7 @@ const url = (repo: string) => `${site.github}/${repo}`;
           <div class="head">
             <Icon name="github" />
             <h3>
-              <a href={url(p.repo)}>{p.repo}</a>
+              <Link href={url(p.repo)}>{p.repo}</Link>
             </h3>
             <span class="go" aria-hidden="true">
               <Icon name="arrow" />
@@ -41,7 +42,7 @@ const url = (repo: string) => `${site.github}/${repo}`;
           <div class="head">
             <Icon name="github" />
             <h4>
-              <a href={url(p.repo)}>{p.repo}</a>
+              <Link href={url(p.repo)}>{p.repo}</Link>
             </h4>
             <span class="go" aria-hidden="true">
               <Icon name="arrow" />

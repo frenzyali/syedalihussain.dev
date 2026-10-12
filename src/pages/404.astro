@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
+import Link from '../components/Link.astro';
 ---
 
 <Base title={`Page not found | ${site.name}`} noindex>
@@ -9,7 +10,7 @@ import { site } from '../data/site';
       <p class="code">404</p>
       <h1 id="missing-title">There's no page at this address.</h1>
       <p class="hint">This site is a single page. Everything is on the homepage.</p>
-      <a class="btn primary" href="/">Go to the homepage</a>
+      <Link class="btn primary" href="/">Go to the homepage</Link>
     </div>
   </section>
 </Base>

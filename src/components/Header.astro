@@ -1,13 +1,14 @@
 ---
 import Icon from './Icon.astro';
 import { site, sections } from '../data/site';
+import Link from './Link.astro';
 
 const links = sections.filter((s) => s.nav).map((s) => ({ href: `/#${s.id}`, text: 'label' in s ? s.label : s.title }));
 ---
 
 <header class="top">
   <div class="wrap bar">
-    <a class="brand" href="/#top">{site.name}</a>
+    <Link class="brand" href="/#top">{site.name}</Link>
 
     <!-- Wide screens: the links inline. -->
     <nav class="inline" aria-label="Sections">
@@ -15,7 +16,7 @@ const links = sections.filter((s) => s.nav).map((s) => ({ href: `/#${s.id}`, tex
         {
           links.map((l) => (
             <li>
-              <a href={l.href}>{l.text}</a>
+              <Link href={l.href}>{l.text}</Link>
             </li>
           ))
         }
@@ -30,7 +31,7 @@ const links = sections.filter((s) => s.nav).map((s) => ({ href: `/#${s.id}`, tex
           {
             links.map((l) => (
               <li>
-                <a href={l.href}>{l.text}</a>
+                <Link href={l.href}>{l.text}</Link>
               </li>
             ))
           }
