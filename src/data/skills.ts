@@ -59,4 +59,10 @@ export const groups: { name: string; items: Skill[] }[] = [
     ],
   },
   { name: 'Languages', items: [{ name: 'Bash', icon: 'bash' }, python] },
+  {
+    name: 'Ways of working',
+    items: ['Scrum', 'Agile', 'Kanban', 'Sprint planning', 'Incident response', 'Runbooks', 'Documentation-first'].map(
+      (name) => ({ name })
+    ),
+  },
 ];

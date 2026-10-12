@@ -58,6 +58,7 @@ export const aiit = {
     },
   ],
   points: [
+    'Work in Scrum: sprint planning, daily stand-ups, reviews and retrospectives, estimating and delivering infrastructure and release work in two-week sprints alongside developers, QA and product.',
     'Replaced cron-driven `git pull` builds, which ran no tests, with CI/CD on `GitHub Actions`. Dockerized the stack and trained the developers on `Docker`.',
     'Set up monitoring and alerting with `CloudWatch` and `SNS`, `Prometheus`, `Grafana` and `Loki`.',
     'Run the on-prem side: `Hyper-V`, `Nginx`, `MikroTik` networking with dual-WAN failover, and `Active Directory`.',

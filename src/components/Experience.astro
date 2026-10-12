@@ -12,6 +12,10 @@ const badges: Record<string, { initials: string; logo: string }> = {
   'Al Nafi International College': { initials: 'AN', logo: 'alnafi' },
 };
 
+// AIIT shows its first point (how the team works) under the results; the rest sit behind "Show more".
+const aiitShown = aiit.points.slice(0, 1);
+const aiitRest = aiit.points.slice(1);
+
 // Internships show their first two points; the rest sit behind "Show more".
 const jobs = internships.map((job) => ({ ...job, shown: job.points.slice(0, 2), rest: job.points.slice(2) }));
 ---
@@ -45,14 +49,24 @@ const jobs = internships.map((job) => ({ ...job, shown: job.points.slice(0, 2), 
         }
       </ul>
 
+      <ul class="points shown" role="list">
+        {
+          aiitShown.map((p) => (
+            <li>
+              <Rich text={p} />
+            </li>
+          ))
+        }
+      </ul>
+
       <details class="more">
         <summary>
-          <span class="when-closed">Show {aiit.points.length} more</span><span class="when-open">Show less</span>
+          <span class="when-closed">Show {aiitRest.length} more</span><span class="when-open">Show less</span>
           <Icon name="chevron" />
         </summary>
         <ul class="points" role="list">
           {
-            aiit.points.map((p) => (
+            aiitRest.map((p) => (
               <li>
                 <Rich text={p} />
               </li>

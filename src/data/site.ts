@@ -12,7 +12,7 @@ export const site = {
   summary:
     'Running AWS infrastructure, CI/CD and monitoring for a multi-service SaaS, I cut its AWS bill by ~53% and per-service deploys from 12 to 4 minutes.',
   description:
-    'Syed Ali Hussain, DevOps Engineer in Rawalpindi, Pakistan. AWS, Docker, GitHub Actions, Terraform, Prometheus and Grafana. Cut a SaaS AWS bill by ~53% and per-service deploy time from 12 to 4 minutes. Open to remote & hybrid roles: DevOps · Cloud · Infrastructure Engineering.',
+    'Syed Ali Hussain, DevOps Engineer in Rawalpindi, Pakistan, working in Agile/Scrum teams. AWS, Docker, GitHub Actions, Terraform, Prometheus and Grafana. Cut a SaaS AWS bill by ~53% and per-service deploy time from 12 to 4 minutes. Open to remote & hybrid roles: DevOps · Cloud · Infrastructure Engineering.',
 };
 
 /** Page sections in order; `nav` marks the ones linked from the top bar. */

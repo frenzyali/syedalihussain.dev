@@ -7,7 +7,8 @@ import { site } from '../data/site';
 import { aiit, change } from '../data/experience';
 
 // The headshot, if one has been added at src/assets/img/ali.{jpg,jpeg,png,webp}. astro:assets
-// only optimises images imported from src/, so it can't live in public/. Until then: a monogram.
+// only optimises images imported from src/, so it can't live in public/. Without one the card
+// shows just the location and links.
 const photos = import.meta.glob<ImageMetadata>('/src/assets/img/ali.{jpg,jpeg,png,webp}', {
   eager: true,
   import: 'default',
@@ -50,11 +51,7 @@ const profiles = [
             alt={`${site.name}, headshot`}
             loading="eager"
           />
-        ) : (
-          <div class="photo monogram" aria-hidden="true">
-            SA
-          </div>
-        )
+        ) : null
       }
       <div class="profile-text">
         <p class="profile-place"><Icon name="pin" />{site.location}</p>
@@ -160,7 +157,7 @@ const profiles = [
     padding-top: 2rem;
   }
 
-  /* Profile: photo (or monogram), location and profile links. The name and role are in the intro. */
+  /* Profile: headshot (if any), location and profile links. The name and role are in the intro. */
   .profile {
     display: flex;
     flex-direction: column;
@@ -175,24 +172,6 @@ const profiles = [
     object-fit: cover;
   }
 
-  /* Placeholder until the headshot exists: a small, quiet initials square, centred. */
-  .monogram {
-    display: grid;
-    place-items: center;
-    width: 6rem;
-    aspect-ratio: 1;
-    margin: 1.5rem auto 0;
-    border: 1px dashed var(--line-strong);
-    border-radius: 50%;
-    color: var(--ink-2);
-    font-size: 1.75rem;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-  }
-
-  .profile:has(.monogram) {
-    justify-content: center;
-  }
 
   .profile-text {
     display: grid;
@@ -308,16 +287,12 @@ const profiles = [
       padding: 0.625rem;
     }
 
-    .monogram {
-      width: 4.5rem;
-      margin: 0;
-      font-size: 1.25rem;
-    }
-
-    .profile:has(.monogram) {
-      grid-template-columns: 4.5rem minmax(0, 1fr);
+    /* No headshot: the location and links take the whole row. */
+    .profile:not(:has(picture)) {
+      grid-template-columns: minmax(0, 1fr);
       padding: 1rem;
     }
+
 
     .profile-text {
       justify-items: start;

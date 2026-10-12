@@ -28,10 +28,11 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European 
 ## Design system: bento
 
 - A bento grid of rounded cards (`.card`: 1px `--line` border, `--radius` 18px, `--surface` fill) on a warm off-white page (light) or a near-black page (dark). Both themes are designed, not inverted; tokens live in `global.css`. No background patterns, corner marks or section numbers.
-- Hero: intro tile (status pill, name, role, summary, CV + Contact), profile card (headshot or a small dashed monogram, location, GitHub/LinkedIn/email), a wide "Currently" tile, and three result tiles. The name and role appear once, in the intro.
+- Hero: intro tile (status pill, name, role, summary, CV + Contact), profile card (headshot if present, location, GitHub/LinkedIn/email; no placeholder image), a wide "Currently" tile, and three result tiles. The name and role appear once, in the intro.
 - Sections (`sections` in `src/data/site.ts` drives the headings; `nav: true` puts one in the sticky top bar): About, Experience (one card with a vertical timeline), Projects (card grid; the whole card links to the repo), Education & Certifications (diploma card with the 88% stat, HSSC row, certification cards), Skills (icon grid, full grouped list behind a toggle), Contact (closing tile).
+- Top bar: the name as plain semibold text (links to the top), the `nav: true` links inline from 40rem, below that the same links in a `<details>` "Menu", and the theme toggle.
 - "Show more" toggles are `<details class="more">` with `.when-closed` / `.when-open` labels. No JS.
-- Logos: only official files the owner adds to `public/img/logos/<name>.svg`; until then `OrgBadge` shows neutral initials. The headshot goes in `src/assets/img/ali.{jpg,webp}` (not `public/`, so `astro:assets` can make AVIF/WebP); until then the profile card shows the monogram. Never use stock or generated images.
+- Logos: only official files the owner adds to `public/img/logos/<name>.svg`; until then `OrgBadge` shows neutral initials. The headshot goes in `src/assets/img/ali.{jpg,webp}` (not `public/`, so `astro:assets` can make AVIF/WebP); until then the profile card shows no image. Never use stock or generated images.
 - Pills (`.pill`) carry status and dates; chips (`.chips`) carry tool names. Uppercase `.eyebrow` labels name a tile's value.
 - Motion animates transform and opacity only (no layout properties, no CLS), and all of it is off under `prefers-reduced-motion`. Rules live in the Motion block at the end of `global.css`.
   - Scroll reveals: `motion.js` adds `.motion` to `<html>` and `.is-in` once to each `[data-reveal]` element; tiles fade and rise 14px, staggered by `data-step`. `[data-count]` numbers count up from 0 to the final text already in the HTML. Without JS nothing is hidden. The intro tile (LCP) never animates.
@@ -43,7 +44,7 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European 
 - `src/data/experience.ts`: jobs and results. Tool names in `points` are wrapped in backticks and rendered by `Rich.astro`. The build fails if results aren't reductions (0 <= after < before).
 - `src/data/projects.ts`, `education.ts` (diploma, HSSC, certifications; also feeds the JSON-LD credential), `skills.ts` (icon grid and groups), `icons.ts` (the simple-icons picks; tools without one get a text badge).
 - `src/layouts/Base.astro`: `<head>` (meta, Open Graph, Twitter card, JSON-LD with `alumniOf` and `hasCredential`, font preload), top bar and footer.
-- `src/components/`: one component per section (Hero, About … Contact), plus Header (sticky top bar), `Section` (heading), `Icon` (UI SVGs), `TechIcon` (simple-icons or text badge), `OrgBadge` (logo or initials) and `Rich` (backticks to `.tool`).
+- `src/components/`: one component per section (Hero, About … Contact), plus Header (sticky top bar, `<details>` menu on phones), `Section` (heading), `Icon` (UI SVGs), `TechIcon` (simple-icons or text badge), `OrgBadge` (logo or initials) and `Rich` (backticks to `.tool`).
 - `src/pages/`: `index.astro` (the single page) and `404.astro` (served by Workers for unknown paths; `noindex`).
 - `wrangler.jsonc`: deploys `dist/` as Cloudflare Workers static assets. Wrangler is run with `npx`, not installed. The www → apex redirect is a Cloudflare Redirect Rule, because `_redirects` can't match hostnames.
 - `public/`: `_headers`, `robots.txt`, `sitemap.xml`, `favicon.svg`, `theme.js`, `motion.js`, fonts, `img/logos/` and `cv/Syed-Ali-Hussain-CV.pdf` (linked from the hero and Contact).

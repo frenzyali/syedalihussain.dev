@@ -31,7 +31,7 @@ import { core, groups } from '../data/skills';
               <ul class="chips" role="list">
                 {g.items.map((s) => (
                   <li>
-                    <TechIcon slug={s.icon} text={s.badge} size={14} />
+                    {(s.icon || s.badge) && <TechIcon slug={s.icon} text={s.badge} size={14} />}
                     <span>
                       {s.name}
                       {s.detail && <span class="detail">: {s.detail}</span>}
@@ -112,7 +112,7 @@ import { core, groups } from '../data/skills';
     text-transform: uppercase;
   }
 
-  .chips li {
+  .chips li:has(:global(.ti)) {
     padding-left: 0.5rem;
   }
 
