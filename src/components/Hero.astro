@@ -45,8 +45,8 @@ const profiles = [
             class="photo"
             src={photo}
             formats={['avif', 'webp']}
-            widths={[320, 480, 720]}
-            sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 45vw, calc(100vw - 2rem)"
+            widths={[208, 320, 480, 720]}
+            sizes="(min-width: 64rem) 22rem, (min-width: 40rem) 30vw, 6.5rem"
             alt={`${site.name}, headshot`}
             loading="eager"
           />
@@ -392,6 +392,22 @@ const profiles = [
     .profile {
       grid-column: 9 / -1;
       grid-row: 1 / 4;
+    }
+
+    /* The photo fills whatever height the tall tile has left; positioned absolutely so it
+       never sets the row heights (no layout shift while it loads). */
+    .profile > picture {
+      position: relative;
+      flex: 1;
+      min-height: 18rem;
+    }
+
+    .profile > picture .photo {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      aspect-ratio: auto;
+      object-position: 50% 25%;
     }
 
     .now {
