@@ -32,7 +32,7 @@ public/
   bg.js             background packets moving along the CSS grid (off with reduced motion)
   robots.txt, sitemap.xml, favicon.svg
 src/
-  assets/img/       the hero avatar, ali.jpg (optimised to AVIF/WebP at build time)
+  assets/img/       the hero avatar, ali.jpg: illustrated portrait by @s.portrait.s (AVIF/WebP at build time)
   data/             site.ts (name, links, sections), experience.ts (jobs and results), projects.ts,
                     recommendations.ts (verbatim LinkedIn recommendations),
                     education.ts (diploma, HSSC, certifications), skills.ts, icons.ts (simple-icons picks)

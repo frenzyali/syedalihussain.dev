@@ -32,14 +32,14 @@ const profiles = [
       {
         photo && (
           <div class="avatar">
-            {/* The source is already a circle on black, so it is drawn zoomed to a circle inside
-                it, centred on the face (see .avatar img); sizes asks for that larger box. */}
+            {/* Drawn zoomed so the face fills the circle (see .avatar img); sizes asks for that
+                larger box (96px or 72px × 1.45), 2× candidates included. */}
             <Picture
               src={photo}
               formats={['avif', 'webp']}
-              widths={[96, 144, 240]}
-              sizes="(min-width: 40rem) 116px, 87px"
-              alt={`Avatar of ${site.name}`}
+              widths={[144, 216, 288]}
+              sizes="(min-width: 40rem) 140px, 105px"
+              alt={`Illustrated portrait of ${site.name}`}
               loading="eager"
             />
           </div>
@@ -142,16 +142,15 @@ const profiles = [
     background: var(--surface-2);
   }
 
-  /* The 640×646 source is a circle (centre 319,323, radius 319) on black. This shows a circle of
-     radius 282 centred on the face (345,315), which stays 8px inside the source circle so none of
-     the black surround or its edge shows: scale 640/564, origin from those points. Re-measure if
-     the image changes. */
+  /* The 843×843 portrait (white background) is shown as the 580px square at (110,167): eyes
+     (y 360) on the circle's upper third, face about 70% of it, centred on x 400. That is
+     scale 843/580 from an origin computed from those points. Re-measure if the image changes. */
   .avatar :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform: scale(1.135);
-    transform-origin: 82.9% 39.5%;
+    transform: scale(1.453);
+    transform-origin: 41.8% 63.4%;
   }
 
   .head {

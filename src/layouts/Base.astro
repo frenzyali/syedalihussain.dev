@@ -110,14 +110,29 @@ const person = {
     </main>
     <footer class="wrap site-footer">
       <p>&copy; {new Date().getFullYear()} {site.name}</p>
+      <p class="credit">Portrait by <Link href="https://www.instagram.com/s.portrait.s/">@s.portrait.s</Link></p>
     </footer>
   </body>
 </html>
 
 <style>
   .site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
     padding-block: 3rem 2.5rem;
     color: var(--ink-2);
     font-size: var(--step--1);
+  }
+
+  .credit :global(a) {
+    color: inherit;
+    text-decoration-color: var(--line-strong);
+  }
+
+  .credit :global(a:hover) {
+    color: var(--ink);
+    text-decoration-color: currentColor;
   }
 </style>
