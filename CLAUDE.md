@@ -33,7 +33,7 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European 
 - Top bar: the name as plain semibold text (links to the top), the `nav: true` links inline from 52rem, below that the same links in a `<details>` "Menu", and the theme toggle.
 - Recommendations (`src/data/recommendations.ts`) are verbatim LinkedIn recommendations: never edit the wording, only typos the owner approves. Initials avatars, never LinkedIn photos. The carousel is a CSS scroll-snap track (works without JS); `carousel.js` adds prev/next, dots and Left/Right keys. No autoplay.
 - "Show more" toggles are `<details class="more">` with `.when-closed` / `.when-open` labels. No JS.
-- Logos: only official files the owner adds to `public/img/logos/<name>.svg`; until then `OrgBadge` shows neutral initials. The headshot goes in `src/assets/img/ali.{jpg,webp}` (not `public/`, so `astro:assets` can make AVIF/WebP); until then the intro shows no avatar. Never use stock or generated images.
+- Logos: only official files the owner provides. Originals live in `assets-src/logos/` (not deployed); `python3 scripts/logos.py` (needs Pillow) trims them, removes their flat background and writes 88×88 WebPs onto white in `public/img/logos/<name>.webp`. `OrgBadge` shows the logo on a white tile (`--logo-tile`, white in both themes) with the organisation name as alt text, or neutral initials if there is no file (BIEK, AWS, Linux Foundation for now). The headshot goes in `src/assets/img/ali.{jpg,webp}` (not `public/`, so `astro:assets` can make AVIF/WebP); until then the intro shows no avatar. Never use stock or generated images.
 - Pills (`.pill`) carry status and dates; chips (`.chips`) carry tool names. Uppercase `.eyebrow` labels name a tile's value.
 - Motion animates transform and opacity only (no layout properties, no CLS), and all of it is off under `prefers-reduced-motion`. Rules live in the Motion block at the end of `global.css`.
   - Scroll reveals: `motion.js` adds `.motion` to `<html>` and `.is-in` once to each `[data-reveal]` element; tiles fade and rise 14px, staggered by `data-step`. `[data-count]` numbers count up from 0 to the final text already in the HTML. Without JS nothing is hidden. The intro tile (LCP) never animates.
@@ -48,7 +48,7 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European 
 - `src/components/`: one component per section (Hero, About … Contact), plus Header (sticky top bar, `<details>` menu on phones), `Section` (heading), `Icon` (UI SVGs), `TechIcon` (simple-icons or text badge), `OrgBadge` (logo or initials) and `Rich` (backticks to `.tool`).
 - `src/pages/`: `index.astro` (the single page) and `404.astro` (served by Workers for unknown paths; `noindex`).
 - `wrangler.jsonc`: deploys `dist/` as Cloudflare Workers static assets. Wrangler is run with `npx`, not installed. The www → apex redirect is a Cloudflare Redirect Rule, because `_redirects` can't match hostnames.
-- `public/`: `_headers`, `robots.txt`, `sitemap.xml`, `favicon.svg`, `theme.js`, `motion.js`, `carousel.js`, fonts, `img/logos/` and `cv/Syed-Ali-Hussain-CV.pdf` (linked from the hero and Contact).
+- `public/`: `_headers`, `robots.txt`, `sitemap.xml`, `favicon.svg`, `theme.js`, `motion.js`, `carousel.js`, fonts, `img/logos/` (generated, see Logos) and `cv/Syed-Ali-Hussain-CV.pdf` (linked from the hero and Contact).
 
 ## Development
 

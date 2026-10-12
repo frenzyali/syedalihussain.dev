@@ -1,29 +1,32 @@
 ---
-// An organisation's logo, or a neutral initials badge until the official logo is added at
-// public/img/logos/<logo>.svg. Decorative: the organisation's name is always next to it.
+// An organisation's logo, or a neutral initials badge until the logo exists at
+// public/img/logos/<logo>.webp. The WebPs are made by scripts/logos.py from the official files in
+// assets-src/logos/: trimmed and flattened onto white, so every logo sits on the same white tile
+// in both themes.
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 interface Props {
+  /** Organisation name, used as the logo's alt text. */
+  name: string;
   initials: string;
   /** File name without extension in public/img/logos/. */
   logo?: string;
 }
 
-const { initials, logo } = Astro.props;
-const src = logo && existsSync(join(process.cwd(), 'public/img/logos', `${logo}.svg`)) ? `/img/logos/${logo}.svg` : undefined;
+const { name, initials, logo } = Astro.props;
+const src = logo && existsSync(join(process.cwd(), 'public/img/logos', `${logo}.webp`)) ? `/img/logos/${logo}.webp` : undefined;
 ---
 
 {
   src ? (
-    <img class="badge" src={src} width="44" height="44" alt="" loading="lazy" decoding="async" />
+    <img class="badge logo" src={src} width="44" height="44" alt={name} decoding="async" />
   ) : (
     <span class="badge initials" aria-hidden="true">
       {initials}
     </span>
   )
 }
-
 <style>
   .badge {
     flex: none;
@@ -32,6 +35,12 @@ const src = logo && existsSync(join(process.cwd(), 'public/img/logos', `${logo}.
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
     background: var(--surface);
+    object-fit: contain;
+  }
+
+  /* The logo files already carry their white tile and margin; this only rounds and outlines it. */
+  .logo {
+    background: var(--logo-tile);
     object-fit: contain;
   }
 

@@ -22,6 +22,8 @@
   --accent: #1f5bd1;
   --accent-ink: #ffffff;
   --accent-soft: #e6edfb;
+  /* Logo badges sit on white in both themes (their files are flattened onto white). */
+  --logo-tile: #ffffff;
   --ok: #17794a;
   --pending: #8a5a00;
   --shadow: 0 10px 28px -14px rgb(40 32 16 / 0.22);

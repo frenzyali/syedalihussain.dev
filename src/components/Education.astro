@@ -8,7 +8,7 @@ import { diploma, school, certifications } from '../data/education';
 <Section id="education">
   <article class="card diploma" data-reveal aria-labelledby="diploma-title">
     <div class="head">
-      <OrgBadge initials="EQ" logo="eduqual" />
+      <OrgBadge name={diploma.issuerName} initials="EQ" logo="eduqual" />
       <div class="titles">
         <h3 id="diploma-title">{diploma.title}</h3>
         <p class="sub">{diploma.level} · {diploma.school}</p>
@@ -54,7 +54,7 @@ import { diploma, school, certifications } from '../data/education';
   </article>
 
   <div class="card school" data-reveal>
-    <OrgBadge initials="BIEK" logo="biek" />
+    <OrgBadge name={school.board} initials="BIEK" logo="biek" />
     <div class="titles">
       <h3>{school.title}</h3>
       <p class="sub">{school.board}</p>
@@ -70,7 +70,7 @@ import { diploma, school, certifications } from '../data/education';
     {
       certifications.map((c, i) => (
         <li class="card cert" data-reveal data-step={String(i)}>
-          <OrgBadge initials={c.initials} logo={c.logo} />
+          <OrgBadge name={c.issuer} initials={c.initials} logo={c.logo} />
           <div class="titles">
             <h4>{c.title}</h4>
             <p class="sub">{c.issuer}</p>

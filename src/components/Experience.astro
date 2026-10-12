@@ -25,7 +25,7 @@ const jobs = internships.map((job) => ({ ...job, shown: job.points.slice(0, 2), 
     <li class="job" data-reveal>
       <span class="node current" aria-hidden="true"></span>
       <header class="job-head">
-        <OrgBadge {...badges[aiit.org]} />
+        <OrgBadge name={aiit.org} {...badges[aiit.org]} />
         <div class="titles">
           <h3>{aiit.role}</h3>
           <p class="org">{aiit.org}</p>
@@ -81,7 +81,7 @@ const jobs = internships.map((job) => ({ ...job, shown: job.points.slice(0, 2), 
         <li class="job" data-reveal>
           <span class="node" aria-hidden="true" />
           <header class="job-head">
-            <OrgBadge {...badges[job.org]} />
+            <OrgBadge name={job.org} {...badges[job.org]} />
             <div class="titles">
               <h3>{job.role}</h3>
               <p class="org">{job.org}</p>
