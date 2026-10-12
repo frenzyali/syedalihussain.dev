@@ -2,7 +2,7 @@
 
 Source for [syedalihussain.dev](https://syedalihussain.dev), the portfolio of Syed Ali Hussain, DevOps Engineer.
 
-A single static page built with [Astro](https://astro.build). It has no client framework, analytics, cookies or third-party requests. Fonts, icons and scripts are all served from the site itself.
+A single static page built with [Astro](https://astro.build): a bento-grid layout with light and dark themes. It has no client framework, analytics, cookies or third-party requests. Fonts, icons and scripts are all served from the site itself.
 
 ## Develop
 
@@ -21,14 +21,17 @@ npm run preview  # serves dist/ locally
 public/
   _headers          security and cache headers, applied by Cloudflare
   cv/               the CV PDF linked from the hero
-  fonts/            IBM Plex Sans Condensed 600 and IBM Plex Mono 400/600, Latin subsets (SIL OFL, see OFL.txt)
+  fonts/            Geist variable (weights 100–900), Latin subset (SIL OFL, see OFL.txt)
+  img/logos/        official organisation logos (optional; initials badges are shown until a file exists)
   theme.js          light/dark toggle, stored in localStorage
-  motion.js         one-shot scroll reveals and results count-down (off with reduced motion)
+  motion.js         one-shot scroll reveals and stat count-ups (off with reduced motion)
   robots.txt, sitemap.xml, favicon.svg
 src/
-  data/             site.ts (name, links, sections), experience.ts (jobs and results)
+  assets/img/       the headshot, ali.jpg or .webp (optional; optimised to AVIF/WebP at build time)
+  data/             site.ts (name, links, sections), experience.ts (jobs and results), projects.ts,
+                    education.ts (diploma, HSSC, certifications), skills.ts, icons.ts (simple-icons picks)
   layouts/Base.astro
-  components/       one component per section, plus Header, Section, Icon, Rich
+  components/       one component per section, plus Header, Section, Icon, TechIcon, OrgBadge, Rich
   pages/            index.astro (the single page) and 404.astro
   styles/global.css design tokens and base styles
 ```
@@ -69,8 +72,9 @@ To check a build locally with the production headers and 404 handling: `npm run 
 
 ## TODO
 
+- Add the headshot at `src/assets/img/ali.jpg` and the official logos in `public/img/logos/` (`aiit.svg`, `alnafi.svg`, `cloudlem.svg`, `eduqual.svg`).
 - Add a 1200×630 Open Graph image, then add `og:image` and switch the Twitter card to `summary_large_image`.
 
 ## Licence
 
-The IBM Plex font files are licensed under the SIL Open Font License 1.1 (`public/fonts/OFL.txt`).
+The Geist font file is licensed under the SIL Open Font License 1.1 (`public/fonts/OFL.txt`). Tool icons come from [simple-icons](https://simpleicons.org) (CC0 1.0), inlined at build time; the brands themselves remain their owners' trademarks.
