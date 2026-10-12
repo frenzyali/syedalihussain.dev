@@ -204,6 +204,13 @@ const jobs = internships.map((job) => ({ ...job, shown: job.points.slice(0, 2), 
     font-size: var(--step--1);
   }
 
+  /* Phones: a wide wordmark badge takes its own row above the role, so the titles keep their width. */
+  @media (max-width: 39.99rem) {
+    .job-head:has(:global(.wide)) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
   @media (min-width: 48rem) {
     .job-head {
       grid-template-columns: auto minmax(0, 1fr) auto;

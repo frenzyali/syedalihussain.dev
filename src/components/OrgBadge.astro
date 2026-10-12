@@ -2,9 +2,11 @@
 // An organisation's logo, or a neutral initials badge until the logo exists at
 // public/img/logos/<logo>.webp. The WebPs are made by scripts/logos.py from the official files in
 // assets-src/logos/: trimmed and flattened onto white, so every logo sits on the same white tile
-// in both themes.
+// in both themes. Square logos are size × size; wordmarks (Al Nafi, EduQual) keep their wider
+// shape at the same height, with width and height taken from the file.
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import sharp from 'sharp';
 
 interface Props {
   /** Organisation name, used as the logo's alt text. */
@@ -12,15 +14,20 @@ interface Props {
   initials: string;
   /** File name without extension in public/img/logos/. */
   logo?: string;
+  /** Badge height in px (44, or 56 on the diploma card). */
+  size?: number;
 }
 
-const { name, initials, logo } = Astro.props;
-const src = logo && existsSync(join(process.cwd(), 'public/img/logos', `${logo}.webp`)) ? `/img/logos/${logo}.webp` : undefined;
+const { name, initials, logo, size = 44 } = Astro.props;
+const file = logo && join(process.cwd(), 'public/img/logos', `${logo}.webp`);
+const src = file && existsSync(file) ? `/img/logos/${logo}.webp` : undefined;
+const meta = src ? await sharp(file).metadata() : undefined;
+const width = meta ? Math.round((size * meta.width!) / meta.height!) : size;
 ---
 
 {
   src ? (
-    <img class="badge logo" src={src} width="44" height="44" alt={name} decoding="async" />
+    <img class:list={['badge', 'logo', { big: size > 44, wide: width > size }]} src={src} width={width} height={size} alt={name} decoding="async" />
   ) : (
     <span class="badge initials" aria-hidden="true">
       {initials}
@@ -28,10 +35,9 @@ const src = logo && existsSync(join(process.cwd(), 'public/img/logos', `${logo}.
   )
 }
 <style>
+  /* Logos are sized by their width/height attributes (exact, before they load); initials are 44px. */
   .badge {
     flex: none;
-    width: 44px;
-    height: 44px;
     border: 1px solid var(--line);
     border-radius: var(--radius-sm);
     background: var(--surface);
@@ -40,12 +46,19 @@ const src = logo && existsSync(join(process.cwd(), 'public/img/logos', `${logo}.
 
   /* The logo files already carry their white tile and margin; this only rounds and outlines it. */
   .logo {
+    height: 44px;
     background: var(--logo-tile);
-    object-fit: contain;
+  }
+
+  .big {
+    height: 56px;
+    border-radius: 14px;
   }
 
   .initials {
     display: grid;
+    width: 44px;
+    height: 44px;
     place-items: center;
     background: var(--surface-2);
     color: var(--ink-2);

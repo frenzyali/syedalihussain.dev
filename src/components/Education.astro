@@ -8,7 +8,7 @@ import { diploma, school, certifications } from '../data/education';
 <Section id="education">
   <article class="card diploma" data-reveal aria-labelledby="diploma-title">
     <div class="head">
-      <OrgBadge name={diploma.issuerName} initials="EQ" logo="eduqual" />
+      <OrgBadge name={diploma.issuerName} initials="EQ" logo="eduqual" size={56} />
       <div class="titles">
         <h3 id="diploma-title">{diploma.title}</h3>
         <p class="sub">{diploma.level} · {diploma.school}</p>
@@ -128,6 +128,13 @@ import { diploma, school, certifications } from '../data/education';
     display: flex;
     align-items: flex-start;
     gap: 0.875rem;
+  }
+
+  /* Phones: the wide EduQual badge sits above the title instead of squeezing it. */
+  @media (max-width: 39.99rem) {
+    .head:has(:global(.wide)) {
+      flex-direction: column;
+    }
   }
 
   .diploma h3 {
