@@ -19,6 +19,7 @@ export const site = {
 export const sections = [
   { id: 'about', title: 'About', nav: false },
   { id: 'experience', title: 'Experience', nav: true },
+  { id: 'recommendations', title: 'What colleagues say', label: 'Recommendations', nav: true },
   { id: 'projects', title: 'Projects', nav: true },
   { id: 'education', title: 'Education & Certifications', label: 'Education', nav: true },
   { id: 'skills', title: 'Skills', nav: false },

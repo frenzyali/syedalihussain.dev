@@ -103,7 +103,8 @@ const links = sections.filter((s) => s.nav).map((s) => ({ href: `/#${s.id}`, tex
     gap: 0.125rem;
   }
 
-  /* Phones: the inline links don't fit beside the full name, so they collapse into the menu. */
+  /* Phones and small tablets: the inline links don't fit beside the full name, so they collapse
+     into the menu. */
   .inline {
     display: none;
   }
@@ -155,7 +156,8 @@ const links = sections.filter((s) => s.nav).map((s) => ({ href: `/#${s.id}`, tex
     color: var(--ink);
   }
 
-  @media (min-width: 40rem) {
+  /* The five links need ~760px beside the name and toggle; below 52rem they use the menu. */
+  @media (min-width: 52rem) {
     .bar {
       gap: 1.5rem;
     }

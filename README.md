@@ -25,10 +25,12 @@ public/
   img/logos/        official organisation logos (optional; initials badges are shown until a file exists)
   theme.js          light/dark toggle, stored in localStorage
   motion.js         one-shot scroll reveals and stat count-ups (off with reduced motion)
+  carousel.js       recommendations carousel: prev/next, dots, arrow keys (the track works without it)
   robots.txt, sitemap.xml, favicon.svg
 src/
   assets/img/       the headshot, ali.jpg or .webp (optional; optimised to AVIF/WebP at build time)
   data/             site.ts (name, links, sections), experience.ts (jobs and results), projects.ts,
+                    recommendations.ts (verbatim LinkedIn recommendations),
                     education.ts (diploma, HSSC, certifications), skills.ts, icons.ts (simple-icons picks)
   layouts/Base.astro
   components/       one component per section, plus Header, Section, Icon, TechIcon, OrgBadge, Rich
