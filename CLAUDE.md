@@ -1,6 +1,6 @@
 # syedalihussain.dev
 
-Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European university admissions officers (Master's applications) and remote DevOps hiring managers. It must read as a real engineer's site, not a template.
+Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: hiring managers, recruiters and university admissions staff. It must read as a real engineer's site, not a template.
 
 ## Hard rules
 
