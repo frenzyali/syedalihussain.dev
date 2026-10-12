@@ -72,7 +72,7 @@ To check a build locally with the production headers and 404 handling: `npm run 
 
 ## TODO
 
-- Add the headshot at `src/assets/img/ali.jpg` and the official logos in `public/img/logos/` (`aiit.svg`, `alnafi.svg`, `cloudlem.svg`, `eduqual.svg`).
+- Add the official logos in `public/img/logos/` (`aiit.svg`, `alnafi.svg`, `cloudlem.svg`, `eduqual.svg`).
 - Add a 1200×630 Open Graph image, then add `og:image` and switch the Twitter card to `summary_large_image`.
 
 ## Licence
