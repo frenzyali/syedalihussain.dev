@@ -27,10 +27,11 @@ const profiles = [
 <section class="wrap hero" id="top" aria-labelledby="name">
   <div class="bento">
     <div class="card tile intro">
-      <p class="pill ok"><span class="dot" aria-hidden="true"></span>Open to remote DevOps roles</p>
+      <p class="pill ok"><span class="dot" aria-hidden="true"></span>{site.availability}</p>
       <h1 id="name">{site.name}</h1>
       <p class="role">{site.title}</p>
       <p class="summary">{site.summary}</p>
+      <p class="focus">{site.focus}</p>
       <ul class="actions" role="list">
         <li><a class="btn primary" href={site.cv} download><Icon name="download" />Download CV</a></li>
         <li><a class="btn" href="#contact"><Icon name="mail" />Contact</a></li>
@@ -143,6 +144,12 @@ const profiles = [
     margin-top: 1.25rem;
     font-size: var(--step-1);
     line-height: 1.55;
+  }
+
+  .focus {
+    margin-top: 0.875rem;
+    color: var(--ink-2);
+    font-weight: 500;
   }
 
   .actions {

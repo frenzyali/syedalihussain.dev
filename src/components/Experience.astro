@@ -12,8 +12,8 @@ const badges: Record<string, { initials: string; logo: string }> = {
   'Al Nafi International College': { initials: 'AN', logo: 'alnafi' },
 };
 
-// Internships show their first point; the rest sit behind "Show more".
-const jobs = internships.map((job) => ({ ...job, first: job.points[0], rest: job.points.slice(1) }));
+// Internships show their first two points; the rest sit behind "Show more".
+const jobs = internships.map((job) => ({ ...job, shown: job.points.slice(0, 2), rest: job.points.slice(2) }));
 ---
 
 <Section id="experience">
@@ -82,13 +82,18 @@ const jobs = internships.map((job) => ({ ...job, first: job.points[0], rest: job
               <span class="where">{job.location}</span>
             </p>
           </header>
-          <p class="body">
-            <Rich text={job.first} />
-          </p>
+          {'note' in job && <p class="note">{job.note}</p>}
+          <ul class="points shown" role="list">
+            {job.shown.map((p) => (
+              <li>
+                <Rich text={p} />
+              </li>
+            ))}
+          </ul>
           {job.rest.length > 0 && (
             <details class="more">
               <summary>
-                <span class="when-closed">Show more</span>
+                <span class="when-closed">Show {job.rest.length} more</span>
                 <span class="when-open">Show less</span>
                 <Icon name="chevron" />
               </summary>
@@ -237,10 +242,14 @@ const jobs = internships.map((job) => ({ ...job, first: job.points[0], rest: job
     transform: rotate(45deg);
   }
 
-  .body {
-    max-width: var(--measure);
-    margin-top: 1rem;
+  .note {
+    margin-top: 0.75rem;
     color: var(--ink-2);
+    font-size: 0.9375rem;
+  }
+
+  .shown {
+    margin-top: 1rem;
   }
 
   .points {

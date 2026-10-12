@@ -6,7 +6,7 @@ Single-page portfolio for Syed Ali Hussain (DevOps Engineer). Readers: European 
 
 - Astro, static output only (`output: 'static'`). No React, Vue, Tailwind or other frameworks.
 - Ask before adding any npm dependency. The runtime one is `astro`; the only dev dependency is `simple-icons` (CC0), used at build time for tool icons (`src/data/icons.ts`), so no icon code ships to the browser. UI icons are inline SVGs in `src/components/Icon.astro`. The sitemap is hand-written in `public/sitemap.xml`.
-- Plain scoped CSS with the custom properties in `src/styles/global.css`. One accent colour (blue, `--accent`). Green (`--ok`) marks a good status ("tested in CI" projects, "Completed" diploma, result ticks); amber (`--pending`) marks "not yet applied" and "In progress" certifications. No red for metrics.
+- Plain scoped CSS with the custom properties in `src/styles/global.css`. One accent colour (blue, `--accent`). Green (`--ok`) marks a good status (the availability pill, "Completed" diploma, result ticks); amber (`--pending`) marks "In progress" certifications. Project CI pills are neutral. No red for metrics.
 - No AI-template look: no purple/blue gradients, glassmorphism, emoji in headings, "Hi, I'm… 👋", hero blobs, fake testimonials or skill-percentage bars.
 - No filler copy. Every sentence states a concrete fact, number or tool. Never invent metrics, employers, dates or links; ask the owner if a fact is missing. Project descriptions only state what the repo README shows.
 - Lighthouse 100 in all four categories, mobile and desktop. No layout shift.

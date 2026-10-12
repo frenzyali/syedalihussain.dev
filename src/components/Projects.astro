@@ -21,10 +21,7 @@ const url = (repo: string) => `${site.github}/${repo}`;
               <Icon name="arrow" />
             </span>
           </div>
-          <p class:list={['pill', p.status.state]}>
-            <span class="dot" aria-hidden="true" />
-            {p.status.label}
-          </p>
+          <p class="pill">{p.ci}</p>
           <p class="text">{p.text}</p>
           <ul class="chips" role="list" aria-label="Stack">
             {p.stack.map((t) => (

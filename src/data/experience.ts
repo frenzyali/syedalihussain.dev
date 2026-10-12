@@ -25,6 +25,8 @@ interface Job {
   start: Month;
   end?: Month;
   lead?: string;
+  /** One plain-text line under the role, e.g. how the internship came about. */
+  note?: string;
   results?: Result[];
   points: string[];
 }
@@ -76,17 +78,26 @@ export const internships = [
     location: 'Remote',
     start: { iso: '2025-11', label: 'Nov 2025' },
     end: { iso: '2025-12', label: 'Dec 2025' },
-    points: ['Worked on CI/CD pipeline reliability and Linux file permissions.'],
+    points: [
+      'Worked on CI/CD pipeline configuration, system monitoring and version-control workflows in a team environment, improving deployment reliability.',
+      'Resolved recurring `Linux` file-permission conflicts between web servers and CI runners using ownership cascades and `umask` configuration, then scripted the fix into the deployment pipeline.',
+      'Received a Letter of Recommendation from the Founder & CEO for technical ability, problem-solving and deployment-process improvements.',
+    ],
   },
   {
     org: 'Al Nafi International College',
     role: 'DevOps Intern',
     location: 'Remote',
+    note: 'Job training programme of the EduQual Level 6 diploma.',
     start: { iso: '2024-07', label: 'Jul 2024' },
     end: { iso: '2025-07', label: 'Jul 2025' },
     points: [
-      'Worked with `AWS`, `Terraform`, `Kubernetes` on `EKS`, and `Prometheus` and `Grafana`.',
-      'Capstones: a `Jenkins` and `Docker` pipeline with log archival to `S3`, and a container-orchestrated app on `AWS EKS`.',
+      'Hands-on training on the Al Nafi Cloud Platform, a real-world infrastructure simulator, scoring 75–90% on complex lab assessments.',
+      'Provisioned reproducible `AWS` infrastructure (EC2, RDS, VPC, S3, IAM) with `Terraform`.',
+      'Ran containerised workloads with `Docker`, `Podman` and `Compose`, and troubleshot `Kubernetes` workloads on `AWS EKS` with RBAC and `OPA` policy enforcement.',
+      'Linux administration: users and groups, `LVM`, `SELinux`, cron, package management, networking and firewalls.',
+      'Deployed a `Prometheus` and `Grafana` monitoring stack; intrusion detection with `Snort` and `Suricata`; centralised logging with `rsyslog`.',
+      'Capstones: a `Jenkins`-based `Docker` deployment pipeline with `S3` log archival, and a container-orchestrated web app on `AWS EKS`.',
     ],
   },
 ] satisfies Job[];
