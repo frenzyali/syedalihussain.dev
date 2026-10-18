@@ -1,6 +1,7 @@
 // The link-preview image (/og.png, 1200×630), drawn at build time with sharp, which Astro already
-// uses for images. It uses the real headshot from assets-src/img/, not the site's avatar. Text is set by Pango from the Geist TTFs in assets-src/fonts/, so it matches the
-// site. The headshot and the name sit inside the centre 630×630, which WhatsApp sometimes crops to;
+// uses for images. It shows the same illustrated portrait as the hero avatar, cropped the same way.
+// Text is set by Pango from the Geist TTFs in assets-src/fonts/, so it matches the site. The
+// portrait and the name sit inside the centre 630×630, which WhatsApp sometimes crops to;
 // everything else stays inside a 60px margin.
 import type { APIRoute } from 'astro';
 import sharp from 'sharp';
@@ -45,14 +46,16 @@ async function line(text: string, font: keyof typeof fonts, size: number, color:
   return { input: data, width: info.width, height: info.height };
 }
 
-/** The real headshot (assets-src/img/ali-headshot.jpg, not the site's avatar) as a circle with a
-    ring, cropped 1.2× from 50% 28% so the face fills most of it. */
+/** The hero avatar (src/assets/img/ali.jpg) as a circle with a ring, cropped like `.avatar img`
+    in Hero.astro: the 580px square at (110,167) of the 843×843 portrait, so the eyes sit on the
+    upper third and the face fills about 70%. Re-measure with Hero.astro if the image changes. */
 async function avatar(d: number, ring: number) {
-  const src = join(root, 'assets-src/img/ali-headshot.jpg');
+  const src = join(root, 'src/assets/img/ali.jpg');
   const meta = await sharp(src).metadata();
-  const side = Math.round(meta.width! / 1.2);
-  const left = Math.round(meta.width! * 0.5 * (1 - 1 / 1.2));
-  const top = Math.round(meta.height! * 0.28 * (1 - 1 / 1.2));
+  const scale = meta.width! / 843;
+  const side = Math.round(580 * scale);
+  const left = Math.round(110 * scale);
+  const top = Math.round(167 * scale);
   const inner = d - 2 * ring;
   const mask = Buffer.from(`<svg width="${inner}" height="${inner}"><circle cx="${inner / 2}" cy="${inner / 2}" r="${inner / 2}" fill="#fff"/></svg>`);
   const photo = await sharp(src)

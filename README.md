@@ -20,7 +20,7 @@ npm run preview  # serves dist/ locally
 ```text
 assets-src/logos/   official logo files (not deployed); run `python3 scripts/logos.py` after changing them
 assets-src/fonts/   Geist SemiBold/Medium/Regular TTFs (OFL), used only to draw og.png at build time
-assets-src/img/     ali-headshot.jpg, the real photo used only in og.png (not deployed)
+assets-src/img/     ali-headshot.jpg, an old photo kept as a backup (not used in the build)
 public/
   _headers          security and cache headers, applied by Cloudflare
   cv/               the CV PDF linked from the hero

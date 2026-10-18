@@ -9,7 +9,7 @@ import Link from './Link.astro';
 
 // The avatar at src/assets/img/ali.{jpg,jpeg,png,webp}, shown in a circle beside the name.
 // astro:assets only optimises images imported from src/, so it can't live in public/. Without one
-// the intro simply has no avatar. (The link preview uses the real headshot in assets-src/img/.)
+// the intro simply has no avatar. src/pages/og.png.ts draws the link preview from the same file.
 const photos = import.meta.glob<ImageMetadata>('/src/assets/img/ali.{jpg,jpeg,png,webp}', {
   eager: true,
   import: 'default',
@@ -245,7 +245,7 @@ const profiles = [
       column-gap: 1.75rem;
     }
 
-    /* No headshot: the text starts at the tile's edge. */
+    /* No avatar: the text starts at the tile's edge. */
     .intro:not(:has(.avatar)) {
       grid-template-columns: minmax(0, 1fr);
       grid-template-areas:
