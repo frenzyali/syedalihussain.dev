@@ -5,6 +5,7 @@ import { site } from '../data/site';
 import { aiit } from '../data/experience';
 import { diploma } from '../data/education';
 import Link from '../components/Link.astro';
+import { ogVersion } from '../lib/og';
 
 interface Props {
   /** Page-specific title; the home page uses "Name | Title". */
@@ -15,8 +16,9 @@ interface Props {
 
 const { title, noindex = false } = Astro.props;
 const pageTitle = title ?? `${site.name} | ${site.title}`;
-// Drawn at build time by src/pages/og.png.ts. Not on noindex pages (the 404).
-const ogImage = new URL('/og.png', site.url).href;
+// Drawn at build time by src/lib/og.ts. ?v= is a hash of the image, so a new image gets a new URL
+// that link previews fetch afresh. Not on noindex pages (the 404).
+const ogImage = noindex ? '' : new URL(`/og.png?v=${await ogVersion()}`, site.url).href;
 
 const person = {
   '@context': 'https://schema.org',

@@ -13,6 +13,7 @@
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-# The link-preview image keeps its URL across rebuilds, so it is cached for a day, not forever.
+# The link-preview image. Pages link it as /og.png?v=<hash>, but the file is served for any query
+# string (and for plain /og.png), so it is cached for a day, not forever.
 /og.png
   Cache-Control: public, max-age=86400

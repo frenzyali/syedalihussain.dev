@@ -9,7 +9,7 @@ import Link from './Link.astro';
 
 // The avatar at src/assets/img/ali.{jpg,jpeg,png,webp}, shown in a circle beside the name.
 // astro:assets only optimises images imported from src/, so it can't live in public/. Without one
-// the intro simply has no avatar. src/pages/og.png.ts draws the link preview from the same file.
+// the intro simply has no avatar. src/lib/og.ts draws the link preview from the same file.
 const photos = import.meta.glob<ImageMetadata>('/src/assets/img/ali.{jpg,jpeg,png,webp}', {
   eager: true,
   import: 'default',

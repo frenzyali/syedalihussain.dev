@@ -37,8 +37,9 @@ src/
                     recommendations.ts (verbatim LinkedIn recommendations),
                     education.ts (diploma, HSSC, certifications), skills.ts, icons.ts (simple-icons picks)
   layouts/Base.astro
+  lib/og.ts         draws og.png with sharp at build time; its hash is the ?v= in og:image
   components/       one component per section, plus Header, Section, Icon, TechIcon, OrgBadge, Rich
-  pages/            index.astro (the single page), 404.astro, og.png.ts (the 1200×630 link preview, drawn with sharp)
+  pages/            index.astro (the single page), 404.astro, og.png.ts (serves the 1200×630 link preview)
   styles/global.css design tokens and base styles
 ```
 
